@@ -34,6 +34,17 @@ public class ProductService {
         return productRepository.findById(productId);
     }
 
+    public String updateProductDetails(Product updatedProductDetails) {
+        Optional<Product> productOriginal = productRepository.findById(updatedProductDetails.getProductId());
+        if(productOriginal.isPresent()){
+            productRepository.saveAndFlush(updatedProductDetails);
+            return "updated product details";
+
+        } else {
+            return "No such product found";
+        }
+    }
+
 
 
 

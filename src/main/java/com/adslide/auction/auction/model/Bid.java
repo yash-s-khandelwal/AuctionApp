@@ -1,7 +1,5 @@
 package com.adslide.auction.auction.model;
 
-import java.util.UUID;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,8 +15,8 @@ import lombok.Data;
 public class Bid {
     public Bid(){}
     @Id
-    @GeneratedValue(strategy=GenerationType.UUID)
-    private UUID bidId;
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    private Long bidId;
 
     private float price;
 

@@ -24,10 +24,7 @@ public class UserController {
         return "working";
     }
 
-    @PostMapping("/test1")
-    public String postTest(){
-        return "post method working";
-    }
+
 
     @GetMapping("/getUserDetailsById/{userId}")
     public Optional<User> getUserDetailsById(@PathVariable Long userId){
@@ -39,6 +36,12 @@ public class UserController {
     public String createUser(@RequestBody User newUser){
         return userService.createUser(newUser);
     }
+
+    @PostMapping("/updateUser")
+    public String updateUser(@RequestBody User updatedUser){
+        return userService.updateUser(updatedUser);
+    }
+
 
 
 }
