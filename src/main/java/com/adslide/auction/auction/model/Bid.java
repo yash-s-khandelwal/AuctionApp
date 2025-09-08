@@ -15,7 +15,7 @@ import lombok.Data;
 public class Bid {
     public Bid(){}
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long bidId;
 
     private float price;
