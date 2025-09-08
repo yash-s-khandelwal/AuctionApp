@@ -21,6 +21,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productID;
     private String productName;
+    private float minimumBid;
+    
 
     @Column(columnDefinition="TEXT")
     private String productDescription;
