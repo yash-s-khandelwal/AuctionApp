@@ -1,0 +1,60 @@
+/* Hero.css */
+.hero {
+  height: 100vh; /* full page height */
+  background: #f8f9fa; /* light grey background */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color:#010101;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: #010408;
+  margin: 15px 0;
+}
+
+.btn.primary {
+  padding: 12px 24px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn.primary:hover {
+  background: #0056b3;
+}
+
+/* Cookie buttons */
+.cookie-buttons {
+  margin-top: 20px;
+}
+
+.cookie-buttons button {
+  margin: 0 10px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cookie-buttons .accept {
+  background: #28a745;
+  color: white;
+}
+
+.cookie-buttons .decline {
+  background: #dc3545;
+  color: white;
+}

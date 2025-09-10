@@ -1,0 +1,10 @@
+/* src/pages/Home.css */
+.home {
+  text-align: center;
+  padding: 20px;
+}
+
+.navbar {
+  background: #f8f8f8;
+  padding: 15px;
+}
