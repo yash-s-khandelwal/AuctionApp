@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import com.adslide.auction.auction.model.Category;
 import com.adslide.auction.auction.model.CategoryLink;
 import com.adslide.auction.auction.service.CategoryService;
 
+@CrossOrigin(origins = "http://localhost:5173") // 👈 Allow frontend requests
 @RestController
 @RequestMapping("/api/v0/category")
 public class CategoryController {
@@ -46,5 +48,4 @@ public class CategoryController {
     public ResponseEntity<?> getProductInCategory(@PathVariable Long categoryId) {
         return new ResponseEntity<>(categoryService.getProductsInCategory(categoryId), HttpStatus.OK);
     }
-
 }
