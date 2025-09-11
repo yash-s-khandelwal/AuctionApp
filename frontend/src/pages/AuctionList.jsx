@@ -49,8 +49,34 @@ const products = [
   name: "Jewelry",
   price: "$200",
   image: "https://picsum.photos/id/107/400/300"
-}
-];
+},
+{
+  id: 9,
+  name: "Old Coin Collection",
+  price: "$300",
+  image: "https://images.unsplash.com/photo-1598387840470-18b0fc803f18?auto=format&fit=crop&w=500&q=80",
+},
+{
+  id: 10,
+  name: "Gift Cards",
+  price: "$50",
+  image: "https://images.unsplash.com/photo-1606813902891-1e2d8f00b37e?auto=format&fit=crop&w=500&q=80",
+},
+{
+  id: 11,
+  name: "Musical Instrument",
+  price: "$650",
+  image: "https://images.unsplash.com/photo-1511376777868-611b54f68947?auto=format&fit=crop&w=500&q=80",
+},
+{
+  id: 12,
+  name: "Smart TV",
+  price: "$999",
+  image: "https://images.unsplash.com/photo-1598300052083-74c1d9c74c7f?auto=format&fit=crop&w=500&q=80",
+},
+
+  ];
+
 
   return (
     <div className="auction-list">
