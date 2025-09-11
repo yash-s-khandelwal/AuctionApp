@@ -8,6 +8,8 @@ import Bid from './components/Bid';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import SearchResults from './components/SearchResults';
+import ProductPage from "./pages/ProductPage";
+import CategoryList from "./pages/CategoryList";
 
  
 function App() {
@@ -30,6 +32,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/search" element={<SearchResults />} />
+        <Route path="/productDetails" element={<ProductPage />} />
+         <Route path="/categories" element={<CategoryList />} />
       </Routes>
     </Router>
   );
