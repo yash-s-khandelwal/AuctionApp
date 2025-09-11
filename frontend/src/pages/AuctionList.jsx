@@ -42,7 +42,7 @@ const products = [
     id: 7,
     name: "Shoes",
     price: "$120",
-    image: "https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?auto=format&fit=crop&w=400&q=80"
+    image: "https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?auto=format&fit=crop&w=400&q=80",
   },
 {
   id: 8,
@@ -54,13 +54,13 @@ const products = [
   id: 9,
   name: "Old Coin Collection",
   price: "$300",
-  image: "https://images.unsplash.com/photo-1598387840470-18b0fc803f18?auto=format&fit=crop&w=500&q=80",
+    image: "https://images.unsplash.com/photo-1598387840470-18b0fc803f18?auto=format&fit=crop&w=500&q=80",
 },
 {
   id: 10,
   name: "Gift Cards",
   price: "$50",
-  image: "https://images.unsplash.com/photo-1606813902891-1e2d8f00b37e?auto=format&fit=crop&w=500&q=80",
+ image: "https://images.unsplash.com/photo-1606813902891-1e2d8f00b37e?auto=format&fit=crop&w=500&q=80",
 },
 {
   id: 11,
@@ -84,7 +84,7 @@ const products = [
       <div className="auction-grid">
         {products.map((p) => (
           <div className="auction-card" key={p.id}>
-            <img src={p.image} alt={p.name} className="auction-img" />
+         <img src={p.image} alt={p.name} className="auction-img" />
             <h3>{p.name}</h3>
             <p>{p.price}</p>
             <Link to={`/product/${p.id}`} className="auction-link">
