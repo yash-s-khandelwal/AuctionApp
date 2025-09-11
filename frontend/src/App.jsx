@@ -15,13 +15,15 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
-        {/* Home page (Hero + AuctionList) */}
+        {/* Home page (AuctionList) */}
         <Route
           path="/"
-          element={<User />}
+          element={<AuctionList />}
         />
 
         {/* Product detail page */}
+         <Route path="/hero" element={<Hero />} />
+         <Route path="/auctionlist" element={<AuctionList />} />
         <Route path="/users" element={<User />} />
         <Route path="/products" element={<Product />} />
         <Route path="/bids" element={<Bid />} />
