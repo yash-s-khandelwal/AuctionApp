@@ -2,6 +2,7 @@ package com.adslide.auction.auction.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.adslide.auction.auction.dto.AllProductListDto;
 import com.adslide.auction.auction.dto.ProductWithBidDto;
 import com.adslide.auction.auction.model.Bid;
 import com.adslide.auction.auction.model.Product;
@@ -35,8 +37,17 @@ public class ProductController {
     }
 
     @GetMapping("/allProducts")
-    public List<Product> productDetails() {
-        return productService.getAllProducts();
+    public ResponseEntity<?> productDetails() {
+        List<Product> allProducts = productService.getAllProducts();
+        List<AllProductListDto> allProductListDto = allProducts.stream()
+                .map(product -> new AllProductListDto(
+                        product.getProductId(),
+                        product.getProductName(),
+                        product.getMinimumBid(),
+                        product.getAuctionStartDate(),
+                        product.getAuctionEndDate()))
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(allProductListDto, HttpStatus.OK);
     }
 
     @GetMapping("/getProductDetails/{productId}")
