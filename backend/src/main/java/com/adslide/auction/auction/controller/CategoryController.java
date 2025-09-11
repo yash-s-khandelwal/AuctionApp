@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,11 @@ public class CategoryController {
     @PostMapping("/createCategoryLinkInBatch")
     public ResponseEntity<?> createCategoryLinkInBatch(@RequestBody List<CategoryLink> categoryLinkList) {
         return new ResponseEntity<>(categoryService.createCategoryLinkInBatch(categoryLinkList), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getProductInCategory/{categoryId}")
+    public ResponseEntity<?> getProductInCategory(@PathVariable Long categoryId) {
+        return new ResponseEntity<>(categoryService.getProductsInCategory(categoryId), HttpStatus.OK);
     }
 
 }
