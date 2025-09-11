@@ -2,8 +2,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Hero from "./pages/Hero";
 import AuctionList from "./pages/AuctionList";
 import Navbar from "./components/Navbar";
-import ProductPage from "./pages/ProductPage";
-import PostAuction from "./pages/PostAuction";
+import User from './components/User';
+import Product from './components/Product';
+import Bid from './components/Bid';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import SearchResults from './components/SearchResults';
+
  
 function App() {
   return (
@@ -13,19 +18,17 @@ function App() {
         {/* Home page (Hero + AuctionList) */}
         <Route
           path="/"
-          element={
-            <>
-              <Hero />
-              <AuctionList />
-            </>
-          }
+          element={<User />}
         />
 
         {/* Product detail page */}
-        <Route path="/product/:id" element={<ProductPage />} />
-       <Route path="/post-auction" element={<PostAuction />} />
+        <Route path="/users" element={<User />} />
+        <Route path="/products" element={<Product />} />
+        <Route path="/bids" element={<Bid />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/search" element={<SearchResults />} />
       </Routes>
-    
     </Router>
   );
 }

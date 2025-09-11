@@ -1,0 +1,86 @@
+/* Bid Page Modern Styles */
+.bid-page {
+  padding: 2rem;
+  background: #fafbfc;
+  min-height: 100vh;
+}
+.bid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.bid-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.2s, border 0.2s;
+  border: 2px solid transparent;
+}
+.bid-card.highest {
+  border: 2px solid #007bff;
+  box-shadow: 0 4px 24px rgba(0,123,255,0.13);
+}
+.bid-info h3 {
+  margin: 0.5rem 0 0.2rem 0;
+  font-size: 1.2rem;
+}
+.bid-info p {
+  margin: 0.2rem 0;
+  color: #555;
+}
+.highest-badge {
+  display: inline-block;
+  background: #007bff;
+  color: #fff;
+  border-radius: 5px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+.add-bid-form {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.add-bid-form input {
+  padding: 0.7rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+.add-bid-form button {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.add-bid-form button:hover {
+  background: #1e7e34;
+}
+.success-msg {
+  color: #28a745;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+.error-msg {
+  color: #dc3545;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+.empty-msg {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  grid-column: 1/-1;
+}

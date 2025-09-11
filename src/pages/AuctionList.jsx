@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import "./AuctionList.css";
-
 function AuctionList() {
 const products = [
   {

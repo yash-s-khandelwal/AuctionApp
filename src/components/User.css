@@ -1,0 +1,82 @@
+/* User Page Modern Styles */
+.user-page {
+  padding: 2rem;
+  background: #fafbfc;
+  min-height: 100vh;
+}
+.user-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.user-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.2s;
+}
+.user-card:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+}
+.user-avatar {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  border: 2px solid #007bff;
+}
+.user-info h3 {
+  margin: 0.5rem 0 0.2rem 0;
+  font-size: 1.2rem;
+}
+.user-info p {
+  margin: 0.2rem 0;
+  color: #555;
+}
+.add-user-form {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.add-user-form input {
+  padding: 0.7rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+.add-user-form button {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.add-user-form button:hover {
+  background: #1e7e34;
+}
+.success-msg {
+  color: #28a745;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+.error-msg {
+  color: #dc3545;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+.empty-msg {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  grid-column: 1/-1;
+}
