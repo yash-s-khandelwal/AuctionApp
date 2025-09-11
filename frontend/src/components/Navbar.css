@@ -1,0 +1,119 @@
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Top Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 40px;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  font-family: Arial, sans-serif;
+}
+
+/* Logo */
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color:  #d7b126;
+}
+.logo .brand {
+  color: #d7b126; /* Red "in" like in invaluable */
+}
+
+/* Search */
+.search-bar {
+  display: flex;
+  align-items: center;
+  color: #d72638;
+background-color: white;
+}
+/* Search Container - Center Navbar */
+.search-container {
+  flex: 1; /* Take available space */
+  display: flex;
+  justify-content: center; /* Center it horizontally */
+  align-items: center;
+  margin: 0 20px;
+}
+
+
+/* Auth Section (right side) */
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.auth span {
+  font-size: 14px;
+  color: #333;   /* changed from #e6f0ff to dark gray for visibility */
+  cursor: pointer;
+}
+.auth a {
+  text-decoration: none;
+  color: #0077cc;  /* blue link for "Log In" */
+  font-size: 14px;
+  font-weight: 500;
+}
+.signup {
+  padding: 6px 14px;
+  background-color: #0077cc;  /* blue button */
+  color: white;               /* white text inside */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.signup:hover {
+  background-color: #005fa3;   /* darker blue on hover */
+}
+
+/* Menu Bar (below navbar) */
+.menu-bar {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  color: #1a72f5;
+  padding: 10px 0;
+  border-bottom: 1px solid #e6f0ff;
+}
+.menu-bar a {
+  text-decoration: none;
+  font-size: 14px;
+  color: #e6f0ff;
+  font-weight: 500;
+}
+.menu-bar a:hover {
+  color: #d72638; /* Red hover effect */
+}
+/* Menu Bar Styles */
+.menu-bar {
+  display: flex;
+  justify-content: center;   /* center align */
+  align-items: center;
+  background-color: #ffffff;
+  padding: 14px 0;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.menu-bar a {
+  text-decoration: none;
+  color: #333;
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0 20px;            /* add spacing between links */
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  padding-bottom: 4px;
+}
+
+.menu-bar a:hover {
+  color: #0077cc;
+  border-bottom: 2px solid #0077cc;
+}
