@@ -34,4 +34,12 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
+        // Getter methods for missing fields
+        public Long getProductId() { return productId; }
+        public String getProductName() { return productName; }
+        public float getMinimumBid() { return minimumBid; }
+        public String getProductDescription() { return productDescription; }
+        public LocalDateTime getAuctionStartDate() { return auctionStartDate; }
+        public LocalDateTime getAuctionEndDate() { return auctionEndDate; }
+        public User getUser() { return user; }
 }

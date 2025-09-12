@@ -10,6 +10,8 @@ import Signup from './components/Signup';
 import SearchResults from './components/SearchResults';
 import ProductPage from "./pages/ProductPage";
 import CategoryList from "./pages/CategoryList";
+import CategoryPage from "./pages/CategoryPage";
+import ProductDetails from "./pages/ProductDetails";
 
  
 function App() {
@@ -34,6 +36,9 @@ function App() {
         <Route path="/search" element={<SearchResults />} />
         <Route path="/productDetails" element={<ProductPage />} />
          <Route path="/categories" element={<CategoryList />} />
+        <Route path="/category/:id" element={<CategoryPage />} />
+        <Route path="/product/:productId" element={<ProductDetails />} />
+
       </Routes>
     </Router>
   );

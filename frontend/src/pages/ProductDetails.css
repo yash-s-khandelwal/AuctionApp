@@ -1,0 +1,152 @@
+/* ProductDetails.css */
+.product-details-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  padding: 2.5rem 2rem;
+  margin: 2rem auto;
+  max-width: 900px;
+}
+.back-btn {
+  background: #7A1528;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.back-btn:hover {
+  background: #0056b3;
+}
+.product-details-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+@media (min-width: 800px) {
+  .product-details-flex {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+.product-image-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.auction-timer-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #f3f3f3;
+  border-radius: 8px;
+  padding: 0.7rem 1.2rem;
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+}
+.place-bid-box {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+.place-bid-input {
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+  font-size: 1.1rem;
+  width: 160px;
+  background: #fff;
+  transition: border 0.2s;
+}
+.place-bid-input:focus {
+  border: 1.5px solid #7A1528;
+  outline: none;
+}
+.place-bid-btn {
+  padding: 0.6rem 1.3rem;
+  background: #7A1528;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  transition: background 0.2s;
+}
+.place-bid-btn:hover {
+  background: #a81c3a;
+}
+.product-details-img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.product-info-section {
+  flex: 2;
+  padding-left: 0;
+}
+@media (min-width: 800px) {
+  .product-info-section {
+    padding-left: 2rem;
+  }
+}
+.product-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #222;
+}
+.product-minbid {
+  font-size: 1.2rem;
+  color: #7A1528;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+}
+.product-desc {
+  font-size: 1.1rem;
+  margin-bottom: 0.7rem;
+  color: #444;
+}
+.bids-section {
+  background: #f7f7f7;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin-top: 2rem;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+}
+.bids-section h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+  color: #7A1528;
+}
+.bid-price {
+  color: #28a745;
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+.bid-username {
+  color: #555;
+  font-size: 0.95rem;
+}
+.no-bids {
+  color: #888;
+  font-style: italic;
+}
+.product-info-section p {
+  margin-bottom: 0.5rem;
+}

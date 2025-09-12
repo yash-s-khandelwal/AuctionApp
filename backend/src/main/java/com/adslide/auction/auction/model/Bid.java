@@ -26,7 +26,14 @@ public class Bid {
 
     @ManyToOne
     @JoinColumn(name="productId", referencedColumnName="productId")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Product product;
+
+        // Getter methods for missing fields
+        public Long getBidId() { return bidId; }
+        public float getPrice() { return price; }
+        public User getUser() { return user; }
+        public Product getProduct() { return product; }
 
 
 }

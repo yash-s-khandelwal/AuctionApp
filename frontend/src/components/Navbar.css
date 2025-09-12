@@ -12,7 +12,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 40px;
-  background-color: white;
+  background-color: #cccccc;
   border-bottom: 1px solid #ddd;
   font-family: Arial, sans-serif;
 }
@@ -21,10 +21,11 @@
 .logo {
   font-size: 22px;
   font-weight: bold;
-  color:  #d7b126;
+  color:  #7A1F28;
 }
 .logo .brand {
-  color: #d7b126; /* Red "in" like in invaluable */
+  color: #7A1F28;
+   /* Red "in" like in invaluable */
 }
 
 /* Search */
@@ -37,7 +38,7 @@ background-color: white;
 /* Search Container - Center Navbar */
 .search-container {
   flex: 1; /* Take available space */
-  display: flex;
+  display: fd7b126lex;
   justify-content: center; /* Center it horizontally */
   align-items: center;
   margin: 0 20px;
@@ -57,13 +58,13 @@ background-color: white;
 }
 .auth a {
   text-decoration: none;
-  color: #0077cc;  /* blue link for "Log In" */
+  color: #7A1F28;  /* blue link for "Log In" */
   font-size: 14px;
   font-weight: 500;
 }
 .signup {
   padding: 6px 14px;
-  background-color: #0077cc;  /* blue button */
+  background-color: #7A1F28;  /* blue button */
   color: white;               /* white text inside */
   border: none;
   border-radius: 4px;
@@ -71,7 +72,7 @@ background-color: white;
   font-weight: bold;
 }
 .signup:hover {
-  background-color: #005fa3;   /* darker blue on hover */
+  background-color: #7A1528;   /* darker blue on hover */
 }
 
 /* Menu Bar (below navbar) */
@@ -79,7 +80,7 @@ background-color: white;
   display: flex;
   justify-content: center;
   gap: 20px;
-  color: #1a72f5;
+  color: #7A1528;
   padding: 10px 0;
   border-bottom: 1px solid #e6f0ff;
 }
@@ -114,8 +115,8 @@ background-color: white;
 }
 
 .menu-bar a:hover {
-  color: #0077cc;
-  border-bottom: 2px solid #0077cc;
+  color: #7A1528;
+  border-bottom: 2px solid #7A1528;
 }
 .category-dropdown {
   position: absolute;

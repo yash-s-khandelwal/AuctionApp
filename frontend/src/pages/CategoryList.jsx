@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const CategoryList = () => {
-  const [categories, setCategories] = useState([]); // ✅ initialize as array
+  const [categories, setCategories] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -13,7 +14,7 @@ const CategoryList = () => {
         console.log("API Response:", response.data);
 
         if (Array.isArray(response.data)) {
-          setCategories(response.data); // ✅ directly set the array
+          setCategories(response.data);
         } else {
           console.error("Unexpected data format:", response.data);
           setError("Invalid category data received");
@@ -33,11 +34,16 @@ const CategoryList = () => {
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
-    <div>
+    <div style={{ padding: "20px" }}>
       <h2>Categories</h2>
-      <ul>
+      <ul style={{ listStyle: "none", padding: 0 }}>
         {categories.map((category) => (
-          <li key={category.categoryId}>{category.categoryName}</li>
+          <li key={category.categoryId} style={{ marginBottom: "8px" }}>
+            {/* ✅ Make category clickable */}
+            <Link to={`/category/${category.categoryId}`} style={{ textDecoration: "none", color: "black" }}>
+              {category.categoryName}
+            </Link>
+          </li>
         ))}
       </ul>
     </div>

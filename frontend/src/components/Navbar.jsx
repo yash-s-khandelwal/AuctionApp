@@ -14,7 +14,9 @@ function Navbar() {
       {/* Top Navbar */}
       <nav className="navbar">
         <div className="logo">
-          <span className="brand">DR</span>IBBLE
+          <span className="brand">Rare</span>Sphere
+            {/* <p style={{ color: "#C28787" }}>Rare Finds. Real Wins</p> */}
+
         </div>
 
         <div className="search-container">
@@ -122,7 +124,7 @@ const styles = {
   primaryBtn: {
     width: "100%",
     padding: "10px",
-    backgroundColor: "#0077cc",
+    backgroundColor: "#7A1F28",
     color: "white",
     border: "none",
     borderRadius: "5px",
