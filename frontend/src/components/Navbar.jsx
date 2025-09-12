@@ -2,31 +2,31 @@ import React, { useState } from "react";
 import "./Navbar.css";
 import SearchBar from "./SearchBar";
 import Login from "../pages/Login";
+import CategoryList from "../pages/CategoryList";
 
 function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [showCategories, setShowCategories] = useState(false); // 👈 NEW STATE
 
   return (
     <>
       {/* Top Navbar */}
       <nav className="navbar">
-        {/* Left Logo */}
         <div className="logo">
-          <span className="brand">DR</span>IBBLE
+          <span className="brand">Rare</span>Sphere
+            {/* <p style={{ color: "#C28787" }}>Rare Finds. Real Wins</p> */}
+
         </div>
-      
-       {/* Center Search Bar */}
+
         <div className="search-container">
           <SearchBar />
-          
         </div>
-        {/* Right Auth */}
+
         <div className="auth">
           <span>❤️ Saved</span>
           <span>🔔 Notifications</span>
 
-          {/* FIX: Added onClick handlers */}
           <button className="login" onClick={() => setShowLogin(true)}>
             Log In
           </button>
@@ -36,11 +36,14 @@ function Navbar() {
         </div>
       </nav>
 
-    
-
       {/* Menu Bar */}
       <div className="menu-bar">
-        <a href="#">Category filters</a>
+        <button
+          className="category-btn"
+          onClick={() => setShowCategories(!showCategories)}
+        >
+          Category filters ⬇
+        </button>
         <a href="#">AUCTIONS</a>
         <a href="#">ITEM LOCATION</a>
         <a href="#">FINE ART</a>
@@ -49,8 +52,15 @@ function Navbar() {
         <a href="#">COLLECTIBLES</a>
         <a href="#">FURNITURE</a>
       </div>
-      
-      {/* Login Popup */}
+
+      {/* Category Popup */}
+      {showCategories && (
+        <div className="category-popup">
+          <CategoryList onClose={() => setShowCategories(false)} />
+        </div>
+      )}
+
+      {/* Login and Signup Popups (unchanged) */}
       {showLogin && (
         <div style={styles.overlay}>
           <div style={styles.modal}>
@@ -59,15 +69,12 @@ function Navbar() {
             <input type="password" placeholder="Password" style={styles.input} />
             <button style={styles.primaryBtn}>Login</button>
             <button style={styles.closeBtn} onClick={() => setShowLogin(false)}>
-               <Login isOpen={showLogin} onClose={() => setShowLogin(false)} />
-
               Close
             </button>
           </div>
         </div>
       )}
 
-      {/* Signup Popup */}
       {showSignup && (
         <div style={styles.overlay}>
           <div style={styles.modal}>
@@ -86,7 +93,6 @@ function Navbar() {
   );
 }
 
-/* Inline Styles */
 const styles = {
   overlay: {
     position: "fixed",
@@ -118,7 +124,7 @@ const styles = {
   primaryBtn: {
     width: "100%",
     padding: "10px",
-    backgroundColor: "#0077cc",
+    backgroundColor: "#7A1F28",
     color: "white",
     border: "none",
     borderRadius: "5px",

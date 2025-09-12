@@ -2,9 +2,10 @@
 .home {
   text-align: center;
   padding: 20px;
+    background : #808080; 
 }
 
 .navbar {
-  background: #f8f8f8;
+  background: #333333;
   padding: 15px;
 }

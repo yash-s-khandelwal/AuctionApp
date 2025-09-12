@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 function AuctionTimer({ endTime }) {
+  
   const calculateTimeLeft = () => {
-    const difference = +new Date(endTime) - +new Date();
+  const difference = +new Date(endTime) - +new Date();
     let timeLeft = {};
 
     if (difference > 0) {

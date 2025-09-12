@@ -9,7 +9,7 @@ const User = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:8080/users')
+    fetch('http://localhost:8080/api/v0/user/getAllUsers')
       .then(res => res.json())
       .then(data => setUsers(data));
   }, []);
@@ -18,7 +18,7 @@ const User = () => {
     e.preventDefault();
     setMessage(null);
     setError(null);
-    fetch('http://localhost:8080/users', {
+    fetch('http://localhost:8080/api/v0/user/createUser', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email })
