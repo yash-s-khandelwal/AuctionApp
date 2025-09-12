@@ -29,13 +29,13 @@ public class BidService {
         return bidRepository.findByUserUserId(userId);
     }
 
-    public ResponseEntity<String> createBid(Bid bidDetails) {
+    public Bid createBid(Bid bidDetails) {
         // checking if time is valid
         Long bidProductId = bidDetails.getProduct().getProductId();
         Optional<Product> bidProductOptional = productRepository.findById(bidProductId);
 
         if (bidProductOptional.isEmpty()) { // checking if product exists
-            return new ResponseEntity<>("No such product found", HttpStatus.CONFLICT);
+            throw new IllegalStateException("No such product found");
         }
 
         Product bidProduct = bidProductOptional.get();
@@ -47,10 +47,10 @@ public class BidService {
 
         // checking if time for bid is valid
         if (!isBidTimeAfterStart) {
-            return new ResponseEntity<>("Auction is yet to start", HttpStatus.CONFLICT);
+            throw new IllegalStateException("Auction is yet to start");
         }
         if (!isBidTimeBeforeEnd) {
-            return new ResponseEntity<>("Auction time has ended", HttpStatus.CONFLICT);
+            throw new IllegalStateException("Auction time has ended");
         }
 
         // getting required details from the object
@@ -71,17 +71,16 @@ public class BidService {
 
         if (!isBidValidPrice) {
             // if the bid is being placed for a lower price than the current highest bid
-            return new ResponseEntity<>("bid is lower than the current highest bid or the minimum price",
-                    HttpStatus.CONFLICT);
+            throw new IllegalStateException("bid is lower than the current highest bid or the minimum price");
         }
 
-        bidRepository.saveAndFlush(bidDetails);
-        return new ResponseEntity<>("bid created", HttpStatus.CREATED);
+        return bidRepository.saveAndFlush(bidDetails);
+
 
     }
 
-    public ResponseEntity<List<Bid>> createBidsInBatch(List<Bid> bidList) {
-        return new ResponseEntity<>(bidRepository.saveAllAndFlush(bidList), HttpStatus.CREATED);
+    public List<Bid> createBidsInBatch(List<Bid> bidList) {
+        return bidRepository.saveAllAndFlush(bidList);
 
     }
 }
