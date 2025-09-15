@@ -81,6 +81,7 @@ function Login() {
 
   return (
     <div style={styles.container}>
+      <div style={{ position: 'absolute', top: 32, right: 48, fontWeight: 700, fontSize: '1.2rem', color: '#1a73e8', letterSpacing: '1px' }}>Log In</div>
       <div style={styles.card}>
         <h2 style={styles.title}>Welcome Back 👋</h2>
         <p style={styles.subtitle}>Log in to continue bidding</p>

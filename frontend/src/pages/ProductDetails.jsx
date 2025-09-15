@@ -80,15 +80,11 @@ function BidInput({ bids, minimumBid }) {
   const [errorMsg, setErrorMsg] = useState("");
   const maxBid = bids && bids.length > 0 ? Math.max(...bids.map(bid => bid.price)) : minimumBid;
 
+  const navigate = useNavigate();
   const handleBid = () => {
-    const amount = parseFloat(bidAmount);
-    if (isNaN(amount) || amount <= maxBid) {
-      setErrorMsg(`Bid must be greater than $${maxBid}`);
-    } else {
-      setErrorMsg("");
-      // TODO: Place bid API call here
-      alert(`Bid of $${amount} placed!`);
-    }
+    // Simulate: if not signed in, redirect to signup page
+    // You can replace this with actual auth check
+    navigate("/signup");
   };
 
   return (

@@ -66,13 +66,17 @@ function Signup() {
 
   return (
     <div style={styles.container}>
+      <div style={{ position: 'absolute', top: 32, right: 48, fontWeight: 700, fontSize: '1.2rem', color: '#0077cc', letterSpacing: '1px' }}>Sign Up</div>
       <div style={styles.card}>
         <h2 style={styles.title}>Create Account 🚀</h2>
         <p style={styles.subtitle}>Join and explore exclusive auctions</p>
 
         <form>
-          <input type="text" placeholder="Full Name" style={styles.input} />
+          <input type="text" placeholder="First Name" style={styles.input} />
+          <input type="text" placeholder="Last Name" style={styles.input} />
           <input type="email" placeholder="Email Address" style={styles.input} />
+          <input type="text" placeholder="Phone Number" style={styles.input} />
+          <input type="text" placeholder="City" style={styles.input} />
           <input type="password" placeholder="Password" style={styles.input} />
 
           <button type="submit" style={styles.btn}>Sign Up</button>

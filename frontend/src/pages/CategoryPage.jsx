@@ -42,8 +42,8 @@ const CategoryPage = () => {
         <p>No products found.</p>
       ) : (
         <ul>
-          {products.map((product) => (
-            <li key={product.productId}>
+          {products.map((product, idx) => (
+            <li key={product.productId || idx}>
               {product.productName} – {product.price}
             </li>
           ))}

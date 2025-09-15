@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 import SearchBar from "./SearchBar";
 import Login from "../pages/Login";
@@ -15,8 +16,6 @@ function Navbar() {
       <nav className="navbar">
         <div className="logo">
           <span className="brand">Rare</span>Sphere
-            {/* <p style={{ color: "#C28787" }}>Rare Finds. Real Wins</p> */}
-
         </div>
 
         <div className="search-container">
@@ -24,9 +23,7 @@ function Navbar() {
         </div>
 
         <div className="auth">
-          <span>❤️ Saved</span>
-          <span>🔔 Notifications</span>
-
+          <span style={{ cursor: "pointer" }}>🔔 Notifications</span>
           <button className="login" onClick={() => setShowLogin(true)}>
             Log In
           </button>
@@ -36,29 +33,33 @@ function Navbar() {
         </div>
       </nav>
 
-      {/* Menu Bar */}
+      {/* Menu Bar - auctions sequence */}
       <div className="menu-bar">
-        <button
-          className="category-btn"
+        <Link to="/auctions" className="menu-link">AUCTIONS</Link>
+        <Link to="/live-auctions" className="menu-link">LIVE AUCTION</Link>
+        <Link to="/passed-auctions" className="menu-link">PASSED AUCTION</Link>
+        <a href="#">VINTAGE</a>
+        <a href="#">FASHION</a>
+        <a href="#">TECHNOLOGY</a>
+        <a href="#">ART</a>
+        <a href="#">COLLECTIBLES</a>
+        <span
+          className="menu-link"
+          style={{ cursor: "pointer", fontWeight: 500 }}
           onClick={() => setShowCategories(!showCategories)}
         >
-          Category filters ⬇
-        </button>
-        <a href="#">AUCTIONS</a>
-        <a href="#">ITEM LOCATION</a>
-        <a href="#">FINE ART</a>
-        <a href="#">DECORATIVE ART</a>
-        <a href="#">SHIPPING</a>
-        <a href="#">COLLECTIBLES</a>
-        <a href="#">FURNITURE</a>
+          All Category ⬇
+        </span>
       </div>
 
-      {/* Category Popup */}
-      {showCategories && (
-        <div className="category-popup">
-          <CategoryList onClose={() => setShowCategories(false)} />
-        </div>
-      )}
+      {/* Category Popup below All Category menu link */}
+      <div style={{ position: "relative" }}>
+        {showCategories && (
+          <div className="category-popup" style={{ position: "absolute", top: "32px", right: 0, zIndex: 100 }}>
+            <CategoryList onClose={() => setShowCategories(false)} />
+          </div>
+        )}
+      </div>
 
       {/* Login and Signup Popups (unchanged) */}
       {showLogin && (
