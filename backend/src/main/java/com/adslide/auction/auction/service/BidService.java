@@ -16,6 +16,7 @@ import com.adslide.auction.auction.repository.ProductRepository;
 
 @Service
 public class BidService {
+    // all methods do what is stated in their name
     @Autowired
     public BidRepository bidRepository;
     @Autowired
@@ -73,9 +74,8 @@ public class BidService {
             // if the bid is being placed for a lower price than the current highest bid
             throw new IllegalStateException("bid is lower than the current highest bid or the minimum price");
         }
-
+        bidDetails.setProduct(bidProduct);
         return bidRepository.saveAndFlush(bidDetails);
-
 
     }
 

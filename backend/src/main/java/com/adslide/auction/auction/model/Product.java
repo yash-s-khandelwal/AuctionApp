@@ -18,6 +18,8 @@ import lombok.Data;
 public class Product {
     public Product() {
     }
+    //this is the model for a product
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

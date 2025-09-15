@@ -11,6 +11,7 @@ import lombok.Data;
 @Entity
 @Table(name = "Category")
 public class Category {
+    //model for a category
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;

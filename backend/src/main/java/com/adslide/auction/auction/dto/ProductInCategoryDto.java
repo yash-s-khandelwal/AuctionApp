@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ProductInCategoryDto {
+    //dto for sending products in a catefo
     private Category category;
     private List<Product> productList;
 
