@@ -3,6 +3,10 @@ package com.adslide.auction.auction.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.adslide.auction.auction.dto.ProductWithCategoryListDto;
+import com.adslide.auction.auction.model.CategoryLink;
+import com.adslide.auction.auction.repository.CategoryLinkRepository;
+import com.adslide.auction.auction.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,16 +17,26 @@ import com.adslide.auction.auction.repository.ProductRepository;
 
 @Service
 public class ProductService {
+    //all methods do what is stated in their name
+
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private CategoryLinkRepository categoryLinkRepository;
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
-    public ResponseEntity<String> createProduct(Product newProduct) {
-        productRepository.saveAndFlush(newProduct);
-        return new ResponseEntity<>("New Product Created", HttpStatus.OK);
+    //this method will return a new product with all the categories that the product owner adds to it.
+    public ProductWithCategoryListDto createProduct(ProductWithCategoryListDto productWithCategoryListDto) {
+        Product productDetails = productWithCategoryListDto.getProductDetails();
+        List<CategoryLink> productCategoryLinks = productWithCategoryListDto.getProductCategoryLink();
+        return new ProductWithCategoryListDto(
+                        productRepository.saveAndFlush(productDetails),
+                        categoryLinkRepository.saveAllAndFlush(productCategoryLinks));
+
+
     }
 
     public ResponseEntity<String> deleteProduct(Long productId) {

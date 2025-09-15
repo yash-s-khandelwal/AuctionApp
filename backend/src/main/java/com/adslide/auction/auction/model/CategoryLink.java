@@ -13,6 +13,7 @@ import lombok.Data;
 @Entity
 @Table(name = "CategoryLink")
 public class CategoryLink {
+    //this is the model used to link a product to a category
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryLinkedId;

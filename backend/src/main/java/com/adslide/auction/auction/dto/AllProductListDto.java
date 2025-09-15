@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class AllProductListDto {
+    //dto for only sending required data for product pages
     Long productId;
     String productName;
     float price;
@@ -15,4 +16,11 @@ public class AllProductListDto {
     LocalDateTime auctionStartDate;
     LocalDateTime auctionEndDate;
 
+    public AllProductListDto(Long productId, String productName, float price, LocalDateTime auctionStartDate, LocalDateTime auctionEndDate) {
+        this.productId = productId;
+        this.productName = productName;
+        this.price = price;
+        this.auctionStartDate = auctionStartDate;
+        this.auctionEndDate = auctionEndDate;
+    }
 }

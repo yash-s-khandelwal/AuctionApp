@@ -17,7 +17,8 @@ import com.adslide.auction.auction.model.Category;
 import com.adslide.auction.auction.model.CategoryLink;
 import com.adslide.auction.auction.service.CategoryService;
 
-@CrossOrigin(origins = "http://localhost:5173") // 👈 Allow frontend requests
+//this class will be the controller that returns categories
+//it has the apis for creating a new category(only for an admin user) and a categoryLink for when a new product is created.
 @RestController
 @RequestMapping("/api/v0/category")
 public class CategoryController {

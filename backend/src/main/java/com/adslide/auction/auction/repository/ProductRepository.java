@@ -7,5 +7,7 @@ import com.adslide.auction.auction.model.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
+    //connects with mysql table with jpa
+
 
 }

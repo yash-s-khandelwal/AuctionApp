@@ -9,6 +9,8 @@ import com.adslide.auction.auction.model.CategoryLink;
 
 @Repository
 public interface CategoryLinkRepository extends JpaRepository<CategoryLink, Long> {
+    //connects with mysql table with jpa
+
 
     List<CategoryLink> findByCategoryCategoryId(Long categoryId);
 

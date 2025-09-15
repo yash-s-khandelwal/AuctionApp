@@ -4,17 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.adslide.auction.auction.dto.ProductWithCategoryListDto;
+import com.adslide.auction.auction.model.CategoryLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 
@@ -27,18 +22,15 @@ import com.adslide.auction.auction.service.ProductService;
 
 @RestController
 @RequestMapping("/api/v0/product")
-@CrossOrigin(origins = "http://localhost:5173")
 public class ProductController {
+
+    //this class has apis for getting all products, getting a single product details, creating a product and deleting a product.
 
     @Autowired
     private ProductService productService;
     @Autowired
     BidService bidService;
 
-    @GetMapping("/test")
-    public String testcheck() {
-        return "working";
-    }
 
     @GetMapping("/allProducts")
     public ResponseEntity<?> productDetails() {
@@ -66,9 +58,8 @@ public class ProductController {
     }
 
     @PostMapping("/createProduct")
-    public ResponseEntity<String> createProduct(@RequestBody Product newProduct) {
-        return productService.createProduct(newProduct);
-
+    public ResponseEntity<?> createProduct(@RequestBody ProductWithCategoryListDto productWithCategoryListDto) {
+        return new ResponseEntity<>(productService.createProduct(productWithCategoryListDto), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/deleteProduct/{productId}")

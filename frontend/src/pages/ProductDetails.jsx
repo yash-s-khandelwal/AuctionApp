@@ -1,8 +1,10 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, data } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./ProductDetails.css";
 import AuctionTimer from "../components/AuctionTimer";
+import useRazorpayScript from '../hooks/useRazorpayScript';
+
 
 function ProductDetails() {
   const { productId } = useParams();
@@ -18,6 +20,7 @@ function ProductDetails() {
         setData(response.data);
       } catch (err) {
         setError("Failed to load product details.");
+        console.log(err);
       } finally {
         setLoading(false);
       }
@@ -30,6 +33,8 @@ function ProductDetails() {
   if (!data || !data.product) return <p>No product found.</p>;
 
   const { product, bids } = data;
+
+
 
   return (
     <div className="product-details-card">
@@ -79,17 +84,69 @@ function BidInput({ bids, minimumBid }) {
   const [bidAmount, setBidAmount] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const maxBid = bids && bids.length > 0 ? Math.max(...bids.map(bid => bid.price)) : minimumBid;
+  const [scriptLoaded, scriptError] = useRazorpayScript('https://checkout.razorpay.com/v1/checkout.js');
 
-  const handleBid = () => {
+function handleRazorpaySuccess(response){
+  console.log(response);
+}
+  
+const handlePlaceBid = async () => {
     const amount = parseFloat(bidAmount);
     if (isNaN(amount) || amount <= maxBid) {
       setErrorMsg(`Bid must be greater than $${maxBid}`);
     } else {
       setErrorMsg("");
-      // TODO: Place bid API call here
-      alert(`Bid of $${amount} placed!`);
+        if (!scriptLoaded) {
+          alert('Payment script not loaded yet!');
+          return;
+        }
+
+        try {
+          const response = await axios.post('http://localhost:8080/api/v0/bid/createBid', {
+            price: bidAmount * 100,
+            user: {
+              userId: 10001
+            }
+          });
+          const orderId = response.data;
+
+          const options = {
+            key: "rzp_test_RGPAKmqn2T4bDQ",
+            amount: bidAmount * 100, // Amount in currency subunits
+            currency: "INR",
+            name: data.productName,
+            description: "Bid for " + data.productName,
+            order_id: orderId, // The ID you got from your backend
+            handler: handleRazorpaySuccess(response),
+            // prefill: {
+            //   name: user.firstName + " " + user.lastName,
+            //   email: user.email,
+            //   contact: user.contact,
+            // },
+            theme: { color: "#7a1528" }
+          };
+
+          // Step 3: Open the Razorpay popup
+          const rzp1 = new window.Razorpay(options);
+          rzp1.on('payment.failed', function (response) {
+            alert('Payment failed: ' + response.error.description);
+          });
+          rzp1.open();
+
+          if (scriptError) {
+            return <div>Failed to load payment script.</div>;
+          }
+
+        } catch (error) {
+          console.error("Failed to create Razorpay order:", error);
+          alert("Failed to create payment order.");
+        }
+      };
+
+      // alert(`Bid of $${amount} placed!`);
     }
-  };
+
+
 
   return (
     <div className="place-bid-box">
@@ -101,7 +158,7 @@ function BidInput({ bids, minimumBid }) {
         placeholder="Enter bid amount"
         className="place-bid-input"
       />
-      <button className="place-bid-btn" onClick={handleBid}>Place Bid</button>
+      <button className="place-bid-btn" onClick={handlePlaceBid}>Place Bid</button>
       {errorMsg && <div style={{ color: "#a81c3a", marginLeft: "1rem", fontWeight: "500" }}>{errorMsg}</div>}
     </div>
   );

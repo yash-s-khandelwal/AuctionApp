@@ -11,29 +11,46 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="Bid")
+@Table(name = "Bid")
+// bid entity for placing bids
 public class Bid {
-    public Bid(){}
+    public Bid() {
+    }
+
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bidId;
 
     private float price;
 
     @ManyToOne
-    @JoinColumn(name="userId", referencedColumnName="userId")
+    @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="productId", referencedColumnName="productId")
-    @com.fasterxml.jackson.annotation.JsonIgnore
+    @JoinColumn(name = "productId", referencedColumnName = "productId")
+    // @com.fasterxml.jackson.annotation.JsonIgnore
     private Product product;
 
-        // Getter methods for missing fields
-        public Long getBidId() { return bidId; }
-        public float getPrice() { return price; }
-        public User getUser() { return user; }
-        public Product getProduct() { return product; }
+    // Getter methods for missing fields
+    public Long getBidId() {
+        return bidId;
+    }
 
+    public float getPrice() {
+        return price;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product bidProduct) {
+        this.product = bidProduct;
+    }
 
 }
