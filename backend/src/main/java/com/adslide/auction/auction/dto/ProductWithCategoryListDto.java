@@ -17,12 +17,12 @@ public class ProductWithCategoryListDto {
     private Product productDetails;
     private List<CategoryLink> productCategoryLink;
 
-//    public ProductWithCategoryListDto(List<CategoryLink> productCategoryLink, Product productDetails) {
-//        this.productCategoryLink = productCategoryLink;
-//        this.productDetails = productDetails;
-//    }
+    public ProductWithCategoryListDto(List<CategoryLink> productCategoryLink, Product productDetails) {
+        this.productCategoryLink = productCategoryLink;
+        this.productDetails = productDetails;
+    }
 
-    public Product getProductDetails(){
+    public Product getProductDetails() {
         return productDetails;
     }
 

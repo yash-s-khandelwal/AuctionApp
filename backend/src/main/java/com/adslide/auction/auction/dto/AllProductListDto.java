@@ -16,11 +16,11 @@ public class AllProductListDto {
     LocalDateTime auctionStartDate;
     LocalDateTime auctionEndDate;
 
-    public AllProductListDto(Long productId, String productName, float price, LocalDateTime auctionStartDate, LocalDateTime auctionEndDate) {
-        this.productId = productId;
-        this.productName = productName;
-        this.price = price;
-        this.auctionStartDate = auctionStartDate;
-        this.auctionEndDate = auctionEndDate;
-    }
+//    public AllProductListDto(Long productId, String productName, float price, LocalDateTime auctionStartDate, LocalDateTime auctionEndDate) {
+//        this.productId = productId;
+//        this.productName = productName;
+//        this.price = price;
+//        this.auctionStartDate = auctionStartDate;
+//        this.auctionEndDate = auctionEndDate;
+//    }
 }

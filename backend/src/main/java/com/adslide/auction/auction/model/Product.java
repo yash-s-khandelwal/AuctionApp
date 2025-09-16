@@ -17,31 +17,32 @@ import lombok.Data;
 @Table(name = "product")
 public class Product {
     public Product() {
-    }
-    //this is the model for a product
+}
+// this is the model for a product
 
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long productId;
+private String productName;
+private float minimumBid;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
-    private String productName;
-    private float minimumBid;
+@Column(columnDefinition = "TEXT")
+private String productDescription;
 
-    @Column(columnDefinition = "TEXT")
-    private String productDescription;
+private LocalDateTime auctionStartDate;
+private LocalDateTime auctionEndDate;
 
-    private LocalDateTime auctionStartDate;
-    private LocalDateTime auctionEndDate;
+private String imageUrl;
 
-    @ManyToOne
+@ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
-        // Getter methods for missing fields
-        public Long getProductId() { return productId; }
-        public String getProductName() { return productName; }
-        public float getMinimumBid() { return minimumBid; }
-        public String getProductDescription() { return productDescription; }
-        public LocalDateTime getAuctionStartDate() { return auctionStartDate; }
-        public LocalDateTime getAuctionEndDate() { return auctionEndDate; }
-        public User getUser() { return user; }
+// // Getter methods for missing fields
+// public Long getProductId() { return productId; }
+// public String getProductName() { return productName; }
+// public float getMinimumBid() { return minimumBid; }
+// public String getProductDescription() { return productDescription; }
+// public LocalDateTime getAuctionStartDate() { return auctionStartDate; }
+// public LocalDateTime getAuctionEndDate() { return auctionEndDate; }
+// public User getUser() { return user; }
 }

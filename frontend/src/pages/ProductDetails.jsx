@@ -86,65 +86,74 @@ function BidInput({ bids, minimumBid }) {
   const maxBid = bids && bids.length > 0 ? Math.max(...bids.map(bid => bid.price)) : minimumBid;
   const [scriptLoaded, scriptError] = useRazorpayScript('https://checkout.razorpay.com/v1/checkout.js');
 
-function handleRazorpaySuccess(response){
-  console.log(response);
-}
-  
-const handlePlaceBid = async () => {
+  function handleRazorpaySuccess(response) {
+    console.log(response);
+  }
+
+  const handlePlaceBid = async () => {
     const amount = parseFloat(bidAmount);
     if (isNaN(amount) || amount <= maxBid) {
       setErrorMsg(`Bid must be greater than $${maxBid}`);
     } else {
       setErrorMsg("");
-        if (!scriptLoaded) {
-          alert('Payment script not loaded yet!');
-          return;
+      if (!scriptLoaded) {
+        alert('Payment script not loaded yet!');
+        return;
+      }
+
+      try {
+        const postData= {
+          price: bidAmount,
+          user: {
+            userId: 10008
+          },
+          product: {
+            productId: 10013
+          },
+        }
+        console.log(postData);
+        const response = await axios.post('http://localhost:8080/api/v0/bid/createBid', postData);
+
+        const orderId = response.data;
+        console.log(orderId);
+
+        const options = {
+          key: "rzp_test_RGPAKmqn2T4bDQ",
+          amount: bidAmount * 100, // Amount in currency subunits
+          currency: "INR",
+          name: data.productName,
+          description: "Bid for " + data.productName,
+          order_id: orderId, // The ID you got from your backend
+          handler: (response) => {
+            handleRazorpaySuccess(response);
+          },
+          // prefill: {
+          //   name: user.firstName + " " + user.lastName,
+          //   email: user.email,
+          //   contact: user.contact,
+          // },
+          theme: { color: "#7a1528" }
+        };
+
+        // Step 3: Open the Razorpay popup
+        const rzp1 = new window.Razorpay(options);
+        rzp1.on('payment.failed', function (response) {
+          alert('Payment failed: ' + response.error.description);
+        });
+        rzp1.open();
+
+        if (scriptError) {
+          return <div>Failed to load payment script.</div>;
         }
 
-        try {
-          const response = await axios.post('http://localhost:8080/api/v0/bid/createBid', {
-            price: bidAmount * 100,
-            user: {
-              userId: 10001
-            }
-          });
-          const orderId = response.data;
+      } catch (error) {
+        console.error("Failed to create Razorpay order:", error.response.data, error.response.description);
+        alert("Failed to create payment order.");
+      }
+    };
 
-          const options = {
-            key: "rzp_test_RGPAKmqn2T4bDQ",
-            amount: bidAmount * 100, // Amount in currency subunits
-            currency: "INR",
-            name: data.productName,
-            description: "Bid for " + data.productName,
-            order_id: orderId, // The ID you got from your backend
-            handler: handleRazorpaySuccess(response),
-            // prefill: {
-            //   name: user.firstName + " " + user.lastName,
-            //   email: user.email,
-            //   contact: user.contact,
-            // },
-            theme: { color: "#7a1528" }
-          };
-
-          // Step 3: Open the Razorpay popup
-          const rzp1 = new window.Razorpay(options);
-          rzp1.on('payment.failed', function (response) {
-            alert('Payment failed: ' + response.error.description);
-          });
-          rzp1.open();
-
-          if (scriptError) {
-            return <div>Failed to load payment script.</div>;
-          }
-
-        } catch (error) {
-          console.error("Failed to create Razorpay order:", error);
-          alert("Failed to create payment order.");
-        }
-      };
-
-      // alert(`Bid of $${amount} placed!`);
-    }
+    // alert(`Bid of $${amount} placed!`);
+  }
 
 
 

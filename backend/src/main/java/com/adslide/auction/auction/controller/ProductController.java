@@ -1,17 +1,19 @@
 package com.adslide.auction.auction.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.adslide.auction.auction.dto.ProductWithCategoryListDto;
 import com.adslide.auction.auction.model.CategoryLink;
+import com.adslide.auction.auction.service.ImageHandlingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
+import org.springframework.web.multipart.MultipartFile;
 
 import com.adslide.auction.auction.dto.AllProductListDto;
 import com.adslide.auction.auction.dto.ProductWithBidDto;
@@ -24,13 +26,15 @@ import com.adslide.auction.auction.service.ProductService;
 @RequestMapping("/api/v0/product")
 public class ProductController {
 
-    //this class has apis for getting all products, getting a single product details, creating a product and deleting a product.
+    // this class has apis for getting all products, getting a single product
+    // details, creating a product and deleting a product.
 
     @Autowired
     private ProductService productService;
     @Autowired
     BidService bidService;
-
+    @Autowired
+    private ImageHandlingService imageHandlingService;
 
     @GetMapping("/allProducts")
     public ResponseEntity<?> productDetails() {
@@ -58,8 +62,16 @@ public class ProductController {
     }
 
     @PostMapping("/createProduct")
-    public ResponseEntity<?> createProduct(@RequestBody ProductWithCategoryListDto productWithCategoryListDto) {
-        return new ResponseEntity<>(productService.createProduct(productWithCategoryListDto), HttpStatus.CREATED);
+    public ResponseEntity<?> createProduct(@RequestParam("productDetails") ProductWithCategoryListDto productWithCategoryListDto,
+    @RequestParam("file") MultipartFile productImage) {
+        try {
+            String fileUrl = imageHandlingService.uploadImage(productImage);
+            productWithCategoryListDto.getProductDetails().setImageUrl(fileUrl);
+            return new ResponseEntity<>(productService.createProduct(productWithCategoryListDto), HttpStatus.CREATED);
+        }
+        catch(IOException e){
+            return new ResponseEntity<>("failed tp upload image, please try later."+ e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/deleteProduct/{productId}")
