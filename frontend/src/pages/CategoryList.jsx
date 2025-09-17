@@ -37,14 +37,22 @@ const CategoryList = () => {
     <div style={{ padding: "20px" }}>
       <h2>Categories</h2>
       <ul style={{ listStyle: "none", padding: 0 }}>
-        {categories.map((category) => (
-          <li key={category.categoryId} style={{ marginBottom: "8px" }}>
-            {/* ✅ Make category clickable */}
-            <Link to={`/category/${category.categoryId}`} style={{ textDecoration: "none", color: "black" }}>
-              {category.categoryName}
-            </Link>
-          </li>
-        ))}
+        {categories.map((category) => {
+          let linkTo = `/category/${category.categoryId}`;
+          const name = category.categoryName.toLowerCase();
+          if (name === 'vintage') linkTo = '/category/vintage';
+          if (name === 'fashion') linkTo = '/category/fashion';
+          if (name === 'technology') linkTo = '/category/technology';
+          if (name === 'art') linkTo = '/category/art';
+          if (name === 'collectibles') linkTo = '/category/collectibles';
+          return (
+            <li key={category.categoryId} style={{ marginBottom: "8px" }}>
+              <Link to={linkTo} style={{ textDecoration: "none", color: "black" }}>
+                {category.categoryName}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

@@ -131,7 +131,6 @@ background-color: white;
 .category-popup {
   position: absolute;
   top: 100px; /* adjust based on navbar height */
-  left: 10px;
   background: white;
   border: 1px solid #ccc;
   border-radius: 8px;

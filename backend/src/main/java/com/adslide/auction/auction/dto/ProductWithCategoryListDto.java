@@ -1,19 +1,24 @@
-package com.adslide.auction.auction.dto;
 
-import com.adslide.auction.auction.model.CategoryLink;
-import com.adslide.auction.auction.model.Product;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+package com.adslide.auction.auction.dto;
 
 import java.util.List;
 
+import com.adslide.auction.auction.model.CategoryLink;
+import com.adslide.auction.auction.model.Product;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class ProductWithCategoryListDto {
+    // No explicit constructor needed; Lombok will generate both all-args and no-args constructors.
     private Product productDetails;
     private List<CategoryLink> productCategoryLink;
 

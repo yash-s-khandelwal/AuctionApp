@@ -2,17 +2,16 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const CategoryPage = () => {
+const TechnologyPage = () => {
   const { id } = useParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/v0/category/getProductInCategoryByName/${id}`
+          `http://localhost:8080/api/v0/category/getProductInCategoryByName/technology`
         );
         if (Array.isArray(response.data)) {
           const now = new Date();
@@ -32,7 +31,7 @@ const CategoryPage = () => {
       }
     };
     fetchProducts();
-  }, [id]);
+  }, []);
 
   if (loading) return <p>Loading products...</p>;
 
@@ -44,38 +43,38 @@ const CategoryPage = () => {
     return Math.round(price * (conversionRates[to] / conversionRates[from]));
   }
 
-  // Mock vintage products if API fails or returns no products
-  const mockVintage = [
+  // Mock technology products if API fails or returns no products
+  const mockTechnology = [
     {
-      productId: 1,
-      productName: 'Vintage Leather Bag',
-      price: 1500,
-      auctionStartDate: '2025-09-15',
-      auctionEndDate: '2025-09-25',
-      imagePath: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80',
+      productId: 201,
+      productName: 'Smartphone',
+      price: 3200,
+      auctionStartDate: '2025-09-21',
+      auctionEndDate: '2025-09-31',
+      imagePath: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80',
     },
     {
-      productId: 2,
-      productName: 'Vintage Watch',
-      price: 1200,
-      auctionStartDate: '2025-09-16',
-      auctionEndDate: '2025-09-26',
-      imagePath: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80',
+      productId: 202,
+      productName: 'Gaming Console',
+      price: 4000,
+      auctionStartDate: '2025-09-22',
+      auctionEndDate: '2025-10-01',
+      imagePath: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=400&q=80',
     },
     {
-      productId: 3,
-      productName: 'Classic Camera',
+      productId: 203,
+      productName: 'Sports Bicycle',
       price: 2500,
-      auctionStartDate: '2025-09-17',
-      auctionEndDate: '2025-09-27',
-      imagePath: 'https://images.unsplash.com/photo-1519183071298-a2962be90b8e?auto=format&fit=crop&w=400&q=80',
+      auctionStartDate: '2025-09-23',
+      auctionEndDate: '2025-10-02',
+      imagePath: 'https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=400&q=80',
     },
   ];
-  const showProducts = products.length > 0 ? products : mockVintage;
+  const showProducts = products.length > 0 ? products : mockTechnology;
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2 style={{fontSize: '2rem', fontWeight: '700', color: '#7A1528', marginBottom: '2rem'}}>Vintage Auctions</h2>
+      <h2 style={{fontSize: '2rem', fontWeight: '700', color: '#7A1528', marginBottom: '2rem'}}>Technology Auctions</h2>
       <div style={{ display: "flex", gap: "32px", flexWrap: "wrap", justifyContent: "center", background: "#f5f5f5", padding: "32px 0" }}>
         {showProducts.map((product, idx) => (
           <div key={product.productId || idx} style={{
@@ -156,4 +155,4 @@ const CategoryPage = () => {
   );
 };
 
-export default CategoryPage;
+export default TechnologyPage;

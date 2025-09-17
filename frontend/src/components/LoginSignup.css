@@ -119,3 +119,8 @@
 .auth-form a:hover {
   text-decoration: underline;
 }
+/* Add to your modal container CSS */
+.modal-container {
+  max-height: 90vh;
+  overflow-y: auto;
+}

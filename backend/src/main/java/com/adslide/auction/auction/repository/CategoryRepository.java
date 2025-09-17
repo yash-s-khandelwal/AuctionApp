@@ -8,6 +8,5 @@ import com.adslide.auction.auction.model.Category;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     //connects with mysql table with jpa
-
-
+    Category findByCategoryName(String categoryName);
 }

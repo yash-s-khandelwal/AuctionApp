@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.adslide.auction.auction.model.Category;
 import com.adslide.auction.auction.model.CategoryLink;
+import com.adslide.auction.auction.model.Product;
 import com.adslide.auction.auction.repository.CategoryLinkRepository;
 import com.adslide.auction.auction.repository.CategoryRepository;
 
@@ -37,8 +38,17 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public List<CategoryLink> getProductsInCategory(Long categoryId) {
-        return categoryLinkRepository.findByCategoryCategoryId(categoryId);
+    public List<Product> getProductsInCategory(Long categoryId) {
+        List<CategoryLink> links = categoryLinkRepository.findByCategoryCategoryId(categoryId);
+        List<Product> products = new java.util.ArrayList<>();
+        if (links != null) {
+            for (CategoryLink link : links) {
+                if (link != null && link.getProduct() != null) {
+                    products.add(link.getProduct());
+                }
+            }
+        }
+        return products;
     }
 
 }

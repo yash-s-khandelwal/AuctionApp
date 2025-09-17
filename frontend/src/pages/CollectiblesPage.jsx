@@ -2,17 +2,16 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const CategoryPage = () => {
+const CollectiblesPage = () => {
   const { id } = useParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/v0/category/getProductInCategoryByName/${id}`
+          `http://localhost:8080/api/v0/category/getProductInCategoryByName/collectibles`
         );
         if (Array.isArray(response.data)) {
           const now = new Date();
@@ -32,7 +31,7 @@ const CategoryPage = () => {
       }
     };
     fetchProducts();
-  }, [id]);
+  }, []);
 
   if (loading) return <p>Loading products...</p>;
 
@@ -44,38 +43,38 @@ const CategoryPage = () => {
     return Math.round(price * (conversionRates[to] / conversionRates[from]));
   }
 
-  // Mock vintage products if API fails or returns no products
-  const mockVintage = [
+  // Mock collectibles products if API fails or returns no products
+  const mockCollectibles = [
     {
-      productId: 1,
-      productName: 'Vintage Leather Bag',
-      price: 1500,
-      auctionStartDate: '2025-09-15',
-      auctionEndDate: '2025-09-25',
-      imagePath: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80',
-    },
-    {
-      productId: 2,
-      productName: 'Vintage Watch',
+      productId: 401,
+      productName: 'Rare Coin',
       price: 1200,
-      auctionStartDate: '2025-09-16',
-      auctionEndDate: '2025-09-26',
-      imagePath: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80',
+      auctionStartDate: '2025-09-27',
+      auctionEndDate: '2025-10-07',
+      imagePath: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
     },
     {
-      productId: 3,
-      productName: 'Classic Camera',
-      price: 2500,
-      auctionStartDate: '2025-09-17',
-      auctionEndDate: '2025-09-27',
-      imagePath: 'https://images.unsplash.com/photo-1519183071298-a2962be90b8e?auto=format&fit=crop&w=400&q=80',
+      productId: 402,
+      productName: 'Vintage Stamp',
+      price: 800,
+      auctionStartDate: '2025-09-28',
+      auctionEndDate: '2025-10-08',
+      imagePath: 'https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80',
+    },
+    {
+      productId: 403,
+      productName: 'Collector Card',
+      price: 1500,
+      auctionStartDate: '2025-09-29',
+      auctionEndDate: '2025-10-09',
+      imagePath: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80',
     },
   ];
-  const showProducts = products.length > 0 ? products : mockVintage;
+  const showProducts = products.length > 0 ? products : mockCollectibles;
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2 style={{fontSize: '2rem', fontWeight: '700', color: '#7A1528', marginBottom: '2rem'}}>Vintage Auctions</h2>
+      <h2 style={{fontSize: '2rem', fontWeight: '700', color: '#7A1528', marginBottom: '2rem'}}>Collectibles Auctions</h2>
       <div style={{ display: "flex", gap: "32px", flexWrap: "wrap", justifyContent: "center", background: "#f5f5f5", padding: "32px 0" }}>
         {showProducts.map((product, idx) => (
           <div key={product.productId || idx} style={{
@@ -156,4 +155,4 @@ const CategoryPage = () => {
   );
 };
 
-export default CategoryPage;
+export default CollectiblesPage;

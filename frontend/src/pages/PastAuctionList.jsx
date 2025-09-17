@@ -49,7 +49,7 @@ function PastAuctionList() {
 
   return (
     <div className="auction-list stylish-bg">
-      <h2 className="auction-title" style={{fontSize: '2.2rem', fontWeight: '700', color: '#222', marginBottom: '2rem'}}>Past Auctions</h2>
+  <h2 className="auction-title" style={{fontSize: '2.2rem', fontWeight: '700', color: '#222', marginBottom: '2rem'}}>Past Auction</h2>
       <div className="auction-grid stylish-grid">
         {products.map((p) => (
           <div className="auction-card stylish-card" key={p.productId}>
@@ -64,5 +64,4 @@ function PastAuctionList() {
     </div>
   );
 }
-
 export default PastAuctionList;
