@@ -14,13 +14,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductWithBidDto {
-    // No explicit constructor needed; Lombok will generate both all-args and no-args constructors.
-    //dto for a product details page that will return details with all bids placed on the product
+
+    // dto for a product details page that will return details with all bids placed
+    // on the product
     private Product product;
     private List<Bid> bids;
 
-//    public ProductWithBidDto(Product product, List<Bid> bids) {
-//        this.product = product;
-//        this.bids = bids;
-//    }
+    // public ProductWithBidDto(Product product, List<Bid> bids) {
+    // this.product = product;
+    // this.bids = bids;
+    // }
 }

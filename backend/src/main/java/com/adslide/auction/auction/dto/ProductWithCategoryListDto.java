@@ -18,7 +18,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductWithCategoryListDto {
-    // No explicit constructor needed; Lombok will generate both all-args and no-args constructors.
     private Product productDetails;
     private List<CategoryLink> productCategoryLink;
 
