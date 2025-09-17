@@ -62,16 +62,10 @@ public class ProductController {
     }
 
     @PostMapping("/createProduct")
-    public ResponseEntity<?> createProduct(@RequestParam("productDetails") ProductWithCategoryListDto productWithCategoryListDto,
-    @RequestParam("file") MultipartFile productImage) {
-        try {
-            String fileUrl = imageHandlingService.uploadImage(productImage);
-            productWithCategoryListDto.getProductDetails().setImageUrl(fileUrl);
-            return new ResponseEntity<>(productService.createProduct(productWithCategoryListDto), HttpStatus.CREATED);
-        }
-        catch(IOException e){
-            return new ResponseEntity<>("failed tp upload image, please try later."+ e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<?> createProduct(
+            @RequestBody ProductWithCategoryListDto productWithCategoryListDto) {
+        return new ResponseEntity<>(productService.createProduct(productWithCategoryListDto), HttpStatus.CREATED);
+
     }
 
     @DeleteMapping("/deleteProduct/{productId}")

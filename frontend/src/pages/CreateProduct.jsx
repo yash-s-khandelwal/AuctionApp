@@ -1,8 +1,7 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function CreateProduct() {
-
   const [form, setForm] = useState({
     image: null,
     title: "",
@@ -10,10 +9,36 @@ function CreateProduct() {
     minBid: "",
     startTime: "",
     endTime: "",
-    categories: []
+    categories: [] // This now stores category IDs, not names
   });
   const [preview, setPreview] = useState(null);
   const [message, setMessage] = useState("");
+  const [userId, setUserId] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [allCategories, setAllCategories] = useState([]); // State for fetched categories
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
+
+  // Load the userId from localStorage and fetch categories on component mount
+  useEffect(() => {
+    // Fetch categories from the backend
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/v0/category/getAllCategory");
+        setAllCategories(response.data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      } finally {
+        setCategoriesLoading(false);
+      }
+    };
+
+    const storedUserId = localStorage.getItem("userId");
+    if (storedUserId) {
+      setUserId(storedUserId);
+    }
+
+    fetchCategories();
+  }, []);
 
   const handleChange = e => {
     const { name, value, files } = e.target;
@@ -25,61 +50,116 @@ function CreateProduct() {
     }
   };
 
-  const handleCategoryToggle = cat => {
+  const handleCategoryToggle = catId => {
     setForm(f => {
-      const exists = f.categories.includes(cat);
+      const exists = f.categories.includes(catId);
       return {
         ...f,
-        categories: exists ? f.categories.filter(c => c !== cat) : [...f.categories, cat]
+        categories: exists ? f.categories.filter(c => c !== catId) : [...f.categories, catId]
       };
     });
   };
 
+  const uploadImageToCloudinary = async (file) => {
+    // The Cloudinary upload URL
+    const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/dhqjlw5gi/image/upload`;
+    
+    // Create the FormData object
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "auctionApp");
+    formData.append("api_key", "137382912588925");
+
+    try {
+        const response = await axios.post(CLOUDINARY_UPLOAD_URL, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        });
+        
+        // Return the secure URL of the uploaded image
+        return response.data.secure_url;
+    } catch (error) {
+        console.error("Cloudinary upload failed:", error);
+        throw new Error("Cloudinary upload failed.");
+    }
+};
+
   const handleSubmit = async e => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("image", form.image);
-    data.append("title", form.title);
-    data.append("description", form.description);
-    data.append("minBid", form.minBid);
-    data.append("startTime", form.startTime);
-    data.append("endTime", form.endTime);
-    data.append("categories", JSON.stringify(form.categories));
+    // if (!userId) {
+    //   setMessage("You must be logged in to create a product.");
+    //   return;
+    // }
+    setLoading(true);
+
+    // console.log("Image file in state:", form.image); // <-- Add this debug log
+
+  if (!form.image) {
+    setMessage("Please select an image file.");
+    return;
+  }
+
+  setLoading(true);
+  setMessage("")
     try {
-      const res = await fetch("/api/v0/product/createProduct", {
-        method: "POST",
-        body: data
+    const imageUrl = await uploadImageToCloudinary(form.image);
+    const productDetailsDto = {
+      productDetails: {
+        productName: form.title,
+        productDescription: form.description,
+        minimumBid: parseFloat(form.minBid),
+        auctionStartDate: form.startTime,
+        auctionEndDate: form.endTime,
+        imageUrl: imageUrl,
+        user: {
+          userId: 10026 //parseInt(userId)
+        }
+      },
+      // Map the array of selected category IDs to a list of CategoryLink objects
+      productCategoryLink: form.categories.map(catId => ({
+        category: {
+          categoryId: catId // Use the ID directly
+        }
+      }))
+    };
+ 
+      const res = await axios.post("http://localhost:8080/api/v0/product/createProduct", productDetailsDto, {
+        headers: {
+        //   // "Content-Type": "multipart/form-data",
+        }
       });
-      if (res.ok) {
+      if (res.status === 201) {
         setMessage("Product created successfully!");
         setForm({ image: null, title: "", description: "", minBid: "", startTime: "", endTime: "", categories: [] });
         setPreview(null);
       } else {
         setMessage("Failed to create product.");
       }
-    } catch {
+    } catch (error) {
+      console.error("Error connecting to server:", error);
       setMessage("Error connecting to server.");
+    } finally {
+      setLoading(false);
     }
   };
-  
-  // Expanded filter options
-  const categories = [
-    "Art", "Fashion", "Technology", "Collectibles", "Vintage",
-    "Jewelry", "Books", "Sports", "Furniture", "Toys", "Music", "Antiques"
-  ];
+
+  if (categoriesLoading) {
+    return <div>Loading categories...</div>;
+  }
 
   return (
     <div style={{ display: "flex", minHeight: "80vh" }}>
       {/* Filter Sidebar */}
-      <div style={{ width: "220px", background: "#f7f7f7", padding: "24px 16px", borderRight: "1px solid #555",fontSize: "18px" }}>
+      <div style={{ width: "220px", background: "#f7f7f7", padding: "24px 16px", borderRight: "1px solid #555", fontSize: "18px" }}>
         <h3 style={{ color: "#7A1528" }}>All Category</h3>
         <ul style={{ listStyle: "none", padding: 0 }}>
-          {categories.map(cat => (
-            <li key={cat}>
+          {allCategories.map(cat => (
+            <li key={cat.categoryId}>
               <button
                 style={{
-                  background: form.categories.includes(cat) ? "#7A1528" : "#fff",
-                  color: form.categories.includes(cat) ? "#fff" : "#7A1528",
+                  background: form.categories.includes(cat.categoryId) ? "#7A1528" : "#fff",
+                  color: form.categories.includes(cat.categoryId) ? "#fff" : "#7A1528",
                   border: "1px solid #7A1528",
                   borderRadius: "6px",
                   padding: "8px 16px",
@@ -88,56 +168,48 @@ function CreateProduct() {
                   cursor: "pointer",
                   fontWeight: "bold"
                 }}
-                onClick={() => handleCategoryToggle(cat)}
+                onClick={() => handleCategoryToggle(cat.categoryId)}
               >
-                {cat}
+                {cat.categoryName}
               </button>
             </li>
           ))}
         </ul>
       </div>
 
-      {/* Create Product Form - 2 columns grid */}
+      {/* Create Product Form */}
       <form onSubmit={handleSubmit} style={{ flex: 1, padding: "32px 40px" }}>
         <h2 style={{ color: "#7A1528", marginBottom: "24px",fontSize: "32px"}}>Create Product</h2>
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "24px",
-          alignItems: "start",
-          marginBottom: "24px"
-        }}>
-          <div>
-            <label>Image:</label><br />
-            <input type="file" name="image" accept="image/*" onChange={handleChange} />
-            {preview && <img src={preview} alt="Preview" style={{ marginTop: "10px", maxWidth: "180px", borderRadius: "8px" }} />}
-          </div>
-          <div>
-            <label>Title:</label><br />
-            <input type="text" name="title" value={form.title} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
-          </div>
-          <div>
-            <label>Description:</label><br />
-            <textarea name="description" value={form.description} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
-          </div>
-          <div>
-            <label>Minimum Bid:</label><br />
-            <input type="number" name="minBid" value={form.minBid} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
-          </div>
-          <div>
-            <label>Auction Start Time:</label><br />
-            <input type="datetime-local" name="startTime" value={form.startTime} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
-          </div>
-          <div>
-            <label>Auction End Time:</label><br />
-            <input type="datetime-local" name="endTime" value={form.endTime} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
-          </div>
-          <div style={{ gridColumn: "1/3" }}>
-            <label>Categories:</label><br />
-            <input type="text" name="categories" value={form.categories.join(", ")} readOnly style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} />
-          </div>
+        <div style={{ marginBottom: "18px" }}>
+          <label>Image:</label><br />
+          <input type="file" name="image" accept="image/*" onChange={handleChange} />
+          {preview && <img src={preview} alt="Preview" style={{ marginTop: "10px", maxWidth: "180px", borderRadius: "8px" }} />}
         </div>
-        <button type="submit" style={{ background: "#7A1528", color: "#fff", padding: "12px 32px", borderRadius: "8px", fontWeight: "bold", fontSize: "16px", border: "none", cursor: "pointer" }}>Create Product</button>
+        <div style={{ marginBottom: "18px" }}>
+          <label>Title:</label><br />
+          <input type="text" name="title" value={form.title} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
+        </div>
+        <div style={{ marginBottom: "18px" }}>
+          <label>Description:</label><br />
+          <textarea name="description" value={form.description} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
+        </div>
+        <div style={{ marginBottom: "18px" }}>
+          <label>Minimum Bid:</label><br />
+          <input type="number" name="minBid" value={form.minBid} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
+        </div>
+        <div style={{ marginBottom: "18px" }}>
+          <label>Auction Start Time:</label><br />
+          <input type="datetime-local" name="startTime" value={form.startTime} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
+        </div>
+        <div style={{ marginBottom: "18px" }}>
+          <label>Auction End Time:</label><br />
+          <input type="datetime-local" name="endTime" value={form.endTime} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
+        </div>
+        <div style={{ marginBottom: "18px" }}>
+          <label>Categories:</label><br />
+          <input type="text" name="categories" value={form.categories.join(", ")} readOnly style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} />
+        </div>
+        <button type="submit" disabled={loading} style={{ background: "#7A1528", color: "#fff", padding: "12px 32px", borderRadius: "8px", fontWeight: "bold", fontSize: "16px", border: "none", cursor: "pointer" }}>Create Product</button>
         {message && <div style={{ marginTop: "18px", color: message.includes("success") ? "green" : "red" }}>{message}</div>}
       </form>
     </div>
@@ -153,7 +225,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 input[type="datetime-local"]:focus {
   border-color: #7A1528 !important;
-  box-shadow: 0 0 0 2px #7A1528 !important;
+  box-shadow: 0 0 0 2px #7A152833 !important;
 }
 `;
 document.head.appendChild(style);

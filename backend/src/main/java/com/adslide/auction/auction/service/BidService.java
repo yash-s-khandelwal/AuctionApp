@@ -5,13 +5,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.adslide.auction.auction.model.Bid;
 import com.adslide.auction.auction.model.Product;
 import com.adslide.auction.auction.repository.BidRepository;
 import com.adslide.auction.auction.repository.ProductRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class BidService {
@@ -22,7 +24,7 @@ public class BidService {
     public ProductRepository productRepository;
 
     public List<Bid> getBidsOnProduct(Long productId) {
-        return bidRepository.findByProductProductId(productId);
+        return bidRepository.findByProductProductIdAndBidStatus(productId, "paid");
     }
 
     public List<Bid> getBidsOfUser(Long userId) {
@@ -56,7 +58,7 @@ public class BidService {
         // getting required details from the object
         Float productMinimumPrice = bidProduct.getMinimumBid();
         Long productId = bidProduct.getProductId();
-        Optional<Float> highestCurrentBid = bidRepository.getHighestBid(productId);
+        Optional<Float> highestCurrentBid = bidRepository.getHighestBid(productId, "paid");
 
         // checking current bids
         boolean hasAnyBid = highestCurrentBid.isPresent();
@@ -73,6 +75,7 @@ public class BidService {
             // if the bid is being placed for a lower price than the current highest bid
             throw new IllegalStateException("bid is lower than the current highest bid or the minimum price");
         }
+
         bidDetails.setProduct(bidProduct);
         return bidRepository.saveAndFlush(bidDetails);
 
@@ -81,5 +84,15 @@ public class BidService {
     public List<Bid> createBidsInBatch(List<Bid> bidList) {
         return bidRepository.saveAllAndFlush(bidList);
 
+    }
+
+    @Transactional
+    public Bid updateStatusBid(Bid updatedStatus) {
+        Bid getBid = bidRepository.findById(updatedStatus.getBidId())
+                .orElseThrow(() -> new IllegalStateException("No Product found please refresh"));
+        getBid.setBidStatus(updatedStatus.getBidStatus());
+        getBid.setRazorpayOrderId(updatedStatus.getRazorpayOrderId());
+        getBid.setRazorpayPaymentId(updatedStatus.getRazorpayPaymentId());
+        return bidRepository.save(getBid);
     }
 }

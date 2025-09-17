@@ -23,6 +23,10 @@ public class Bid {
 
     private float price;
 
+    private String bidStatus;
+    private String razorpayPaymentId;
+    private String razorpayOrderId;
+
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;

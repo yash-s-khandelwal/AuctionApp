@@ -17,7 +17,7 @@ import com.adslide.auction.auction.repository.ProductRepository;
 
 @Service
 public class ProductService {
-    //all methods do what is stated in their name
+    // all methods do what is stated in their name
 
     @Autowired
     private ProductRepository productRepository;
@@ -28,14 +28,14 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    //this method will return a new product with all the categories that the product owner adds to it.
+    // this method will return a new product with all the categories that the
+    // product owner adds to it.
     public ProductWithCategoryListDto createProduct(ProductWithCategoryListDto productWithCategoryListDto) {
         Product productDetails = productWithCategoryListDto.getProductDetails();
         List<CategoryLink> productCategoryLinks = productWithCategoryListDto.getProductCategoryLink();
         return new ProductWithCategoryListDto(
-                        productRepository.saveAndFlush(productDetails),
-                        categoryLinkRepository.saveAllAndFlush(productCategoryLinks));
-
+                categoryLinkRepository.saveAllAndFlush(productCategoryLinks),
+                productRepository.saveAndFlush(productDetails));
 
     }
 
