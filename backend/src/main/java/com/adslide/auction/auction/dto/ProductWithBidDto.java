@@ -19,8 +19,8 @@ public class ProductWithBidDto {
     private Product product;
     private List<Bid> bids;
 
-    // public ProductWithBidDto(Product product, List<Bid> bids) {
-    //     this.product = product;
-    //     this.bids = bids;
-    // }
+//    public ProductWithBidDto(Product product, List<Bid> bids) {
+//        this.product = product;
+//        this.bids = bids;
+//    }
 }
