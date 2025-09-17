@@ -97,37 +97,45 @@ function CreateProduct() {
         </ul>
       </div>
 
-      {/* Create Product Form */}
+      {/* Create Product Form - 2 columns grid */}
       <form onSubmit={handleSubmit} style={{ flex: 1, padding: "32px 40px" }}>
         <h2 style={{ color: "#7A1528", marginBottom: "24px",fontSize: "32px"}}>Create Product</h2>
-        <div style={{ marginBottom: "18px" }}>
-          <label>Image:</label><br />
-          <input type="file" name="image" accept="image/*" onChange={handleChange} />
-          {preview && <img src={preview} alt="Preview" style={{ marginTop: "10px", maxWidth: "180px", borderRadius: "8px" }} />}
-        </div>
-        <div style={{ marginBottom: "18px" }}>
-          <label>Title:</label><br />
-          <input type="text" name="title" value={form.title} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
-        </div>
-        <div style={{ marginBottom: "18px" }}>
-          <label>Description:</label><br />
-          <textarea name="description" value={form.description} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
-        </div>
-        <div style={{ marginBottom: "18px" }}>
-          <label>Minimum Bid:</label><br />
-          <input type="number" name="minBid" value={form.minBid} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
-        </div>
-        <div style={{ marginBottom: "18px" }}>
-          <label>Auction Start Time:</label><br />
-          <input type="datetime-local" name="startTime" value={form.startTime} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
-        </div>
-        <div style={{ marginBottom: "18px" }}>
-          <label>Auction End Time:</label><br />
-          <input type="datetime-local" name="endTime" value={form.endTime} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
-        </div>
-        <div style={{ marginBottom: "18px" }}>
-          <label>Categories:</label><br />
-          <input type="text" name="categories" value={form.categories.join(", ")} readOnly style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} />
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "24px",
+          alignItems: "start",
+          marginBottom: "24px"
+        }}>
+          <div>
+            <label>Image:</label><br />
+            <input type="file" name="image" accept="image/*" onChange={handleChange} />
+            {preview && <img src={preview} alt="Preview" style={{ marginTop: "10px", maxWidth: "180px", borderRadius: "8px" }} />}
+          </div>
+          <div>
+            <label>Title:</label><br />
+            <input type="text" name="title" value={form.title} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
+          </div>
+          <div>
+            <label>Description:</label><br />
+            <textarea name="description" value={form.description} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
+          </div>
+          <div>
+            <label>Minimum Bid:</label><br />
+            <input type="number" name="minBid" value={form.minBid} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
+          </div>
+          <div>
+            <label>Auction Start Time:</label><br />
+            <input type="datetime-local" name="startTime" value={form.startTime} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
+          </div>
+          <div>
+            <label>Auction End Time:</label><br />
+            <input type="datetime-local" name="endTime" value={form.endTime} onChange={handleChange} style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} required />
+          </div>
+          <div style={{ gridColumn: "1/3" }}>
+            <label>Categories:</label><br />
+            <input type="text" name="categories" value={form.categories.join(", ")} readOnly style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} />
+          </div>
         </div>
         <button type="submit" style={{ background: "#7A1528", color: "#fff", padding: "12px 32px", borderRadius: "8px", fontWeight: "bold", fontSize: "16px", border: "none", cursor: "pointer" }}>Create Product</button>
         {message && <div style={{ marginTop: "18px", color: message.includes("success") ? "green" : "red" }}>{message}</div>}
@@ -145,7 +153,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 input[type="datetime-local"]:focus {
   border-color: #7A1528 !important;
-  box-shadow: 0 0 0 2px #7A152833 !important;
+  box-shadow: 0 0 0 2px #7A1528 !important;
 }
 `;
 document.head.appendChild(style);

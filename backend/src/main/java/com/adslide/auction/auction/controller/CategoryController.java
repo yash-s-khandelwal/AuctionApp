@@ -49,21 +49,22 @@ public class CategoryController {
         return new ResponseEntity<>(categoryService.getProductsInCategory(categoryId), HttpStatus.OK);
     }
 
-    @GetMapping("/getProductInCategoryByName/{categoryName}")
-    public ResponseEntity<?> getProductInCategoryByName(@PathVariable String categoryName) {
-        try {
-            Category category = categoryService.categoryRepository.findByCategoryName(categoryName);
-            if (category == null) {
-                return new ResponseEntity<>("Category not found", HttpStatus.NOT_FOUND);
-            }
-            List<?> products = categoryService.getProductsInCategory(category.getCategoryId());
-            if (products == null) {
-                return new ResponseEntity<>("No products found for category", HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(products, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Internal server error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    // @GetMapping("/getProductInCategoryByName/{categoryName}")
+    // public ResponseEntity<?> getProductInCategoryByName(@PathVariable String categoryName) {
+    //     try {
+    //         Category category = categoryService.categoryRepository.findByCategoryName(categoryName);
+    //         if (category == null) {
+    //             return new ResponseEntity<>("Category not found", HttpStatus.NOT_FOUND);
+    //         }
+    //         List<?> products = categoryService.getProductsInCategory(category.getCategoryId());
+    //         if (products == null) {
+    //             return new ResponseEntity<>("No products found for category", HttpStatus.NOT_FOUND);
+    //         }
+    //         return new ResponseEntity<>(products, HttpStatus.OK);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return new ResponseEntity<>("Internal server error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
+
 }

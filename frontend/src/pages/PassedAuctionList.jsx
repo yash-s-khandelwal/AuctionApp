@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearch } from "../context/SearchContext";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./AuctionList.css";
@@ -7,6 +8,7 @@ function PastAuctionList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { searchQuery } = useSearch();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -47,11 +49,25 @@ function PastAuctionList() {
   if (loading) return <p>Loading past auctions...</p>;
   if (error) return <p>Error: {error}</p>;
 
+  // Filter products by search query (name, description, seller fields)
+  const filteredProducts = products.filter(p => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return true;
+    const seller = p.user || {};
+    return (
+      (p.productName && p.productName.toLowerCase().includes(query)) ||
+      (p.productDescription && p.productDescription.toLowerCase().includes(query)) ||
+      (seller.username && seller.username.toLowerCase().includes(query)) ||
+      (seller.email && seller.email.toLowerCase().includes(query)) ||
+      (seller.firstName && seller.firstName.toLowerCase().includes(query)) ||
+      (seller.lastName && seller.lastName.toLowerCase().includes(query))
+    );
+  });
   return (
     <div className="auction-list stylish-bg">
       <h2 className="auction-title" style={{fontSize: '2.2rem', fontWeight: '700', color: '#222', marginBottom: '2rem'}}>Past Auctions</h2>
       <div className="auction-grid stylish-grid">
-        {products.map((p) => (
+        {filteredProducts.map((p) => (
           <div className="auction-card stylish-card" key={p.productId}>
             <img src={`https://picsum.photos/seed/${p.productId}/400/300`} alt={p.productName} className="auction-img" style={{borderRadius: '16px', boxShadow: '0 2px 12px rgba(255, 255, 255, 0.1)'}} />
             <h3 style={{fontSize: '1.3rem', fontWeight: '700', color: '#ffffffff', margin: '1rem 0 0.5rem'}}>{p.productName}</h3>

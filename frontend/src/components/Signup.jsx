@@ -4,7 +4,8 @@ import './LoginSignup.css';
 
 function Signup() {
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", city: "", password: "" });
+  const [form, setForm] = useState({ firstName: "", lastName: "", phone: "", email: "", password: "", confirmPassword: "" });
+  const isPasswordMatch = form.password === form.confirmPassword;
   const navigate = useNavigate();
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
@@ -15,6 +16,15 @@ function Signup() {
   };
 
   const styles = {
+    grid: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: '20px',
+      marginBottom: '32px',
+    },
+    gridItem: {
+      width: '100%',
+    },
     container: {
       display: "flex",
       justifyContent: "center",
@@ -26,11 +36,12 @@ function Signup() {
     },
     card: {
       background: "#fff",
-      padding: "40px",
-      borderRadius: "12px",
-      boxShadow: "0 6px 20px rgba(0, 0, 0, 0.15)",
+      padding: "60px 48px",
+      borderRadius: "16px",
+      boxShadow: "0 8px 32px rgba(0, 0, 0, 0.18)",
       width: "100%",
-      maxWidth: "380px",
+      maxWidth: "600px",
+      minHeight: "520px",
       textAlign: "center",
       zIndex: 2,
       position: "relative"
@@ -56,13 +67,14 @@ function Signup() {
       marginBottom: "20px",
     },
     input: {
-      width: "100%",
-      padding: "12px",
-      margin: "10px 0",
-      border: "1px solid #ddd",
-      borderRadius: "8px",
-      fontSize: "14px",
-      outline: "none",
+  width: '100%',
+  padding: '14px 12px',
+  fontSize: '1rem',
+  border: '1px solid #ccc',
+  borderRadius: '6px',
+  boxSizing: 'border-box',
+  marginBottom: '0',
+  background: '#f8f8fc',
     },
     btn: {
       width: "100%",
@@ -106,6 +118,17 @@ function Signup() {
 
   return (
     <div style={styles.container}>
+      <style>{`
+        @media (max-width: 600px) {
+          .signup-grid {
+            display: block !important;
+          }
+          .signup-grid-item {
+            width: 100% !important;
+            margin-bottom: 15px;
+          }
+        }
+      `}</style>
       <button style={styles.btn} onClick={() => setShowForm(true)}>
         Sign Up
       </button>
@@ -116,11 +139,33 @@ function Signup() {
             <h2 style={styles.title}>Create Account 🚀</h2>
             <p style={styles.subtitle}>Join and explore exclusive auctions</p>
             <form onSubmit={handleSubmit}>
-              <input name="firstName" type="text" placeholder="First Name" style={styles.input} value={form.firstName} onChange={handleChange} />
-              <input name="lastName" type="text" placeholder="Last Name" style={styles.input} value={form.lastName} onChange={handleChange} />
-              <input name="email" type="email" placeholder="Email Address" style={styles.input} value={form.email} onChange={handleChange} />
-              <input name="phone" type="text" placeholder="Phone Number" style={styles.input} value={form.phone} onChange={handleChange} />
-              <button type="submit" style={styles.btn}>Sign Up</button>
+              <div style={styles.grid} className="signup-grid">
+                <div style={styles.gridItem} className="signup-grid-item">
+                  <input name="firstName" type="text" placeholder="First Name" style={styles.input} value={form.firstName} onChange={handleChange} />
+                </div>
+                <div style={styles.gridItem} className="signup-grid-item">
+                  <input name="lastName" type="text" placeholder="Last Name" style={styles.input} value={form.lastName} onChange={handleChange} />
+                </div>
+                <div style={styles.gridItem} className="signup-grid-item">
+                  <input name="phone" type="tel" placeholder="Phone Number" style={styles.input} value={form.phone} onChange={handleChange} />
+                </div>
+                <div style={styles.gridItem} className="signup-grid-item">
+                  <input name="email" type="email" placeholder="Email" style={styles.input} value={form.email} onChange={handleChange} />
+                </div>
+                <div style={styles.gridItem} className="signup-grid-item">
+                  <input name="password" type="password" placeholder="Password" style={styles.input} value={form.password} onChange={handleChange} />
+                </div>
+                <div style={styles.gridItem} className="signup-grid-item">
+                  <input name="confirmPassword" type="password" placeholder="Confirm Password" style={styles.input} value={form.confirmPassword} onChange={handleChange} />
+                </div>
+              </div>
+              {!isPasswordMatch && form.confirmPassword.length > 0 && (
+                <div style={{ color: 'red', marginBottom: '12px', fontSize: '0.95rem' }}>
+                  Password and Confirm Password do not match.
+                </div>
+              )}
+              <button type="submit" style={{ ...styles.btn, opacity: isPasswordMatch ? 1 : 0.5, pointerEvents: isPasswordMatch ? 'auto' : 'none', width: '100%', fontSize: '1.2rem', padding: '16px 0', marginBottom: '16px' }} disabled={!isPasswordMatch}>Sign Up</button>
+              <button type="submit" style={{ ...styles.btn, opacity: isPasswordMatch ? 1 : 0.5, pointerEvents: isPasswordMatch ? 'auto' : 'none' }} disabled={!isPasswordMatch}>Sign Up</button>
             </form>
             <p style={styles.footer}>
               Already have an account?

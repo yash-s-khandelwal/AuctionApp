@@ -392,7 +392,7 @@ function BidInput({ bids, minimumBid }) {
             userId: 10008
           },
           product: {
-            productId: 10013
+            productId: product.productId
           },
         }
         console.log(postData);
@@ -431,6 +431,7 @@ function BidInput({ bids, minimumBid }) {
         }
 
       } catch (error) {
+        console.log(error);
         console.error("Failed to create Razorpay order:", error.response.data, error.response.description);
         alert("Failed to create payment order.");
       }

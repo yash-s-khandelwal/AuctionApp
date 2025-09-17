@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearch } from "../context/SearchContext";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./AuctionList.css";
@@ -8,6 +9,7 @@ function LiveAuctionList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { searchQuery } = useSearch();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -35,6 +37,20 @@ function LiveAuctionList() {
     return Math.round(price * (conversionRates[to] / conversionRates[from]));
   }
 
+  // Filter products by search query (name, description, seller fields)
+  const filteredProducts = products.filter(p => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return true;
+    const seller = p.user || {};
+    return (
+      (p.productName && p.productName.toLowerCase().includes(query)) ||
+      (p.productDescription && p.productDescription.toLowerCase().includes(query)) ||
+      (seller.username && seller.username.toLowerCase().includes(query)) ||
+      (seller.email && seller.email.toLowerCase().includes(query)) ||
+      (seller.firstName && seller.firstName.toLowerCase().includes(query)) ||
+      (seller.lastName && seller.lastName.toLowerCase().includes(query))
+    );
+  });
   if (loading) return <p>Loading live auctions...</p>;
   if (error) return <p>Error: {error}</p>;
 
@@ -42,7 +58,7 @@ function LiveAuctionList() {
     <div className="auction-list stylish-bg">
       <h2 className="auction-title" style={{fontSize: '2.2rem', fontWeight: '700', color: '#222', marginBottom: '2rem'}}>Live Auctions</h2>
       <div className="auction-grid stylish-grid">
-        {products.map((p) => {
+        {filteredProducts.map((p) => {
           // Try to get image from API, else fallback to productMock by name
           let imgSrc = p.image;
           if (!imgSrc) {
