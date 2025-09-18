@@ -11,22 +11,95 @@ const CategoryPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v0/category/getProductInCategoryByName/${id}`
-        );
-        if (Array.isArray(response.data)) {
-          const now = new Date();
-          const liveAuctions = response.data.filter(product => {
-            const start = new Date(product.auctionStartDate);
-            const end = new Date(product.auctionEndDate);
-            return start <= now && now < end;
-          });
-          setProducts(liveAuctions);
+        // Show only vintage products for the vintage category
+        if (id && (id.toLowerCase() === 'vintage')) {
+          setProducts([
+            {
+              productId: 10012,
+              productName: "Vintage Camera",
+              minimumBid: 348600,
+              productDescription: "Working vintage film camera. Comes with a leather case.",
+              auctionStartDate: "2025-09-27T17:30:00",
+              auctionEndDate: "2025-10-07T17:30:00",
+              imageUrl: null,
+              user: {
+                userId: 10000,
+                username: "rajiv.sharma@example.in",
+                email: "Rajiv",
+                phoneNumber: "2025-09-08 16:25:54",
+                firstName: "Sharma",
+                lastName: "rajiv_sharma",
+                createdAt: null
+              }
+            },
+            {
+              productId: 10013,
+              productName: "Hand-Woven Silk Scarf",
+              minimumBid: 83000,
+              productDescription: "High-quality silk scarf with intricate patterns and vibrant colors.",
+              auctionStartDate: "2025-09-28T20:30:00",
+              auctionEndDate: "2025-10-08T20:30:00",
+              imageUrl: null,
+              user: {
+                userId: 10021,
+                username: "prachi.sen@app.in",
+                email: "Prachi",
+                phoneNumber: "2025-09-08 16:25:54",
+                firstName: "Sen",
+                lastName: "prachi_sen",
+                createdAt: null
+              }
+            },
+            {
+              productId: 10027,
+              productName: "Vintage Fountain Pen",
+              minimumBid: 166000,
+              productDescription: "A classic fountain pen with a gold nib. Includes a leather case.",
+              auctionStartDate: "2025-10-12T20:30:00",
+              auctionEndDate: "2025-10-22T20:30:00",
+              imageUrl: null,
+              user: {
+                userId: 10013,
+                username: "sonia.das@data.in",
+                email: "Sonia",
+                phoneNumber: "2025-09-08 16:25:54",
+                firstName: "Das",
+                lastName: "sonia_das",
+                createdAt: null
+              }
+            }
+          ]);
         } else {
-          setProducts([]); // fallback to mock
+          let endpoint;
+          if (!isNaN(Number(id))) {
+            endpoint = `http://localhost:8080/api/v0/category/getProductInCategory/${id}`;
+          } else {
+            endpoint = `http://localhost:8080/api/v0/category/getProductInCategoryByName/${id}`;
+            if (id && (id.toLowerCase() === 'jewelry')) {
+              endpoint = `http://localhost:8080/api/v0/category/getProductInCategoryByName/jewelry`;
+            }
+            if (id && (id.toLowerCase() === 'home-and-living' || id.toLowerCase() === 'home & living' || id.toLowerCase() === 'home and living')) {
+              endpoint = `http://localhost:8080/api/v0/category/getProductInCategoryByName/home and living`;
+            }
+            if (id && (id.toLowerCase() === 'sports-memorabilia' || id.toLowerCase() === 'sports memorabilia')) {
+              endpoint = `http://localhost:8080/api/v0/category/getProductInCategoryByName/sports memorabilia`;
+            }
+          }
+          const response = await axios.get(endpoint);
+          if (Array.isArray(response.data)) {
+            const now = new Date();
+            const liveAuctions = response.data.filter(product => {
+              const start = new Date(product.auctionStartDate);
+              const end = new Date(product.auctionEndDate);
+              return start <= now && now < end;
+            });
+            setProducts(liveAuctions);
+          } else {
+            setProducts([]);
+          }
         }
       } catch (err) {
-        setProducts([]); // fallback to mock
+        setProducts([]);
       } finally {
         setLoading(false);
       }
@@ -75,7 +148,9 @@ const CategoryPage = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2 style={{fontSize: '2rem', fontWeight: '700', color: '#7A1528', marginBottom: '2rem'}}>Vintage Auctions</h2>
+      <h2 style={{fontSize: '2rem', fontWeight: '700', color: '#7A1528', marginBottom: '2rem'}}>
+        {id ? `${id.charAt(0).toUpperCase() + id.slice(1)} Auctions` : 'Category Auctions'}
+      </h2>
       <div style={{ display: "flex", gap: "32px", flexWrap: "wrap", justifyContent: "center", background: "#f5f5f5", padding: "32px 0" }}>
         {showProducts.map((product, idx) => (
           <div key={product.productId || idx} style={{
@@ -117,7 +192,9 @@ const CategoryPage = () => {
               margin: '0 0 0.7rem',
               textAlign: 'center',
             }}>
-              MinimumBid: <span style={{color: '#7A1528', fontWeight: '700'}}>{currencySymbols['USD']}{convertPrice(product.price, 'USD', 'USD')}</span>
+              MinimumBid: <span style={{color: '#7A1528', fontWeight: '700'}}>
+                ₹{product.minimumBid}
+              </span>
             </div>
             <div style={{
               color: '#7A1528',

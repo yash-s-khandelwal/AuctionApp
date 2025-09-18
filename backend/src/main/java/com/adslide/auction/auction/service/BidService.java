@@ -95,4 +95,5 @@ public class BidService {
         getBid.setRazorpayPaymentId(updatedStatus.getRazorpayPaymentId());
         return bidRepository.save(getBid);
     }
+
 }

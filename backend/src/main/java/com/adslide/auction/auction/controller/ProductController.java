@@ -1,4 +1,6 @@
+
 package com.adslide.auction.auction.controller;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -73,5 +75,19 @@ public class ProductController {
     @PostMapping("/createProductsInBatch")
     public ResponseEntity<List<Product>> createProductsInBatch(@RequestBody List<Product> productList) {
         return productService.createProductsInBatch(productList);
+    }
+
+    @GetMapping("/pastAuctions")
+    public ResponseEntity<?> getPastAuctions() {
+        List<Product> pastProducts = productService.getPastAuctions();
+        List<AllProductListDto> pastProductListDto = pastProducts.stream()
+            .map(product -> new AllProductListDto(
+                product.getProductId(),
+                product.getProductName(),
+                product.getMinimumBid(),
+                product.getAuctionStartDate(),
+                product.getAuctionEndDate()))
+            .collect(Collectors.toList());
+        return new ResponseEntity<>(pastProductListDto, HttpStatus.OK);
     }
 }

@@ -41,10 +41,14 @@ public class CategoryService {
     public List<Product> getProductsInCategory(Long categoryId) {
         List<CategoryLink> links = categoryLinkRepository.findByCategoryCategoryId(categoryId);
         List<Product> products = new java.util.ArrayList<>();
+        float conversionRate = 83f; // USD to INR
         if (links != null) {
             for (CategoryLink link : links) {
                 if (link != null && link.getProduct() != null) {
-                    products.add(link.getProduct());
+                    Product p = link.getProduct();
+                    // Convert minimumBid to INR
+                    p.setMinimumBid(p.getMinimumBid() * conversionRate);
+                    products.add(p);
                 }
             }
         }
