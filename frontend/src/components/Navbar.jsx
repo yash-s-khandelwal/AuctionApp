@@ -3,38 +3,25 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 import SearchBar from "./SearchBar";
 import { useSearch } from "../context/SearchContext";
-import Login from "../pages/Login";
 import CategoryList from "../pages/CategoryList";
+import api from "../api/axiosConfig";
+import LoginForm from "./Auth/LoginForm"; // Import the new components
+import SignupForm from "./Auth/SignupForm";
+import { jwtDecode } from "jwt-decode";
+import { useAuth } from "../context/AuthContext";
 
-function Navbar({ currency = 'INR', setCurrency = () => {} }) { // INR default
-  const [signupAttempted, setSignupAttempted] = useState(false);
-  const [signupForm, setSignupForm] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
-  const isSignupValid =
-    signupForm.password === signupForm.confirmPassword &&
-    signupForm.password.length > 0 &&
-    signupForm.confirmPassword.length > 0 &&
-    signupForm.firstName.trim() && signupForm.lastName.trim() && signupForm.phone.trim() && signupForm.email.trim();
-  const emptyFields = Object.entries(signupForm).filter(([key, value]) => value.trim() === '');
-  const handleSignupChange = e => {
-    setSignupForm({ ...signupForm, [e.target.name]: e.target.value });
-  };
+function Navbar({ currency = 'INR', setCurrency = () => { } }) { // INR default
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
+  const { user, logout } = useAuth();
   const currencyFlags = [
     { code: 'USD', label: '🇺🇸' },
     { code: 'INR', label: '🇮🇳' },
     { code: 'EUR', label: '🇪🇺' },
     { code: 'GBP', label: '🇬🇧' }
   ];
-  const isLoggedIn = localStorage.getItem("user");
+  const isLoggedIn = localStorage.getItem("token");
   const [showCurrencyDropdown, setShowCurrencyDropdown] = useState(false);
 
   // Use global search context
@@ -84,7 +71,7 @@ function Navbar({ currency = 'INR', setCurrency = () => {} }) { // INR default
             onMouseOut={e => (e.currentTarget.style.background = "transparent")}
           >
             <span style={{ marginRight: "10px", fontSize: "2.1rem", display: 'flex', alignItems: 'center' }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#7A1528" viewBox="0 0 24 24"><path d="M12 3l10 9h-3v9h-6v-6h-2v6H5v-9H2z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#7A1528" viewBox="0 0 24 24"><path d="M12 3l10 9h-3v9h-6v-6h-2v6H5v-9H2z" /></svg>
             </span>
             <span className="brand" style={{ fontSize: '2.4rem', fontWeight: 'bold', letterSpacing: '0.04em' }}>RareSphere</span>
           </Link>
@@ -164,20 +151,40 @@ function Navbar({ currency = 'INR', setCurrency = () => {} }) { // INR default
 
         {/* Right: Auth Buttons */}
         <div className="auth" style={{ flex: '0 0 auto', display: 'flex', alignItems: 'center', gap: '16px' }}>
-          {isLoggedIn ? (
-            <Link to="/profile" className="profile-btn" style={{ marginLeft: "16px", background: "#7A1528", color: "#fff", padding: "8px 18px", borderRadius: "8px", fontWeight: "bold", textDecoration: "none" }}>Profile</Link>
+          {user ? (
+            <>
+            <Link to="/profile" className="profile-btn" style={{ marginLeft: "16px", background: "#7A1528", color: "#fff", padding: "8px 18px", borderRadius: "8px", fontWeight: "bold", textDecoration: "none" }}>{user.username}</Link>
+            <button onClick={logout} className="profile-btn" style={{ marginLeft: "16px", background: "#7A1528", color: "#fff", padding: "8px 18px", borderRadius: "8px", fontWeight: "bold", textDecoration: "none" }}>Log Out</button>
+            </>
           ) : (
             <>
-              <button className="login" style={{ background: 'transparent', color: '#222', fontWeight: '500', fontSize: '1.1rem', border: 'none', marginRight: '8px', cursor: 'pointer' }} onClick={() => setShowLogin(true)}>
+              <button className="login" style={{ background: 'transparent', color: '#222', fontWeight: '500', fontSize: '1.1rem', border: 'none', marginRight: '8px', cursor: 'pointer' }} onClick={() => {setShowLogin(true)}} >
                 Log In
               </button>
-              <button className="signup" style={{ background: '#7A1528', color: '#fff', fontWeight: 'bold', fontSize: '1.1rem', border: 'none', borderRadius: '8px', padding: '8px 18px', cursor: 'pointer' }} onClick={() => setShowSignup(true)}>
+              <button className="signup" style={{ background: '#7A1528', color: '#fff', fontWeight: 'bold', fontSize: '1.1rem', border: 'none', borderRadius: '8px', padding: '8px 18px', cursor: 'pointer'}} onClick={() => {setShowSignup(true)}}
+                >
                 Sign Up
               </button>
             </>
           )}
         </div>
       </nav>
+
+       {showLogin && (
+        <div style={styles.overlay}>
+          <div style={styles.modal}>
+            <LoginForm onClose={() => setShowLogin(false)} />
+          </div>
+        </div>
+      )}
+
+      {showSignup && (
+        <div style={styles.overlay}>
+          <div style={{ ...styles.modal, padding: '60px 48px', borderRadius: '16px', minWidth: '480px', minHeight: '520px', maxWidth: '600px' }}>
+            <SignupForm onClose={() => setShowSignup(false)} />
+          </div>
+        </div>
+      )}
 
       {/* Menu Bar - auctions sequence */}
       <div className="menu-bar">
@@ -207,78 +214,9 @@ function Navbar({ currency = 'INR', setCurrency = () => {} }) { // INR default
       </div>
 
       {/* Login and Signup Popups (unchanged) */}
-      {showLogin && (
-        <div style={styles.overlay}>
-          <div style={styles.modal}>
-            <h2>Login</h2>
-            <input type="email" placeholder="Email" style={styles.input} />
-            <input type="password" placeholder="Password" style={styles.input} />
-            <button style={styles.primaryBtn} >Login</button>
-            <button style={styles.closeBtn} onClick={() => setShowLogin(false)}>
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+      
 
-      {showSignup && (
-        <div style={styles.overlay}>
-          <div style={{ ...styles.modal, padding: '60px 48px', borderRadius: '16px', minWidth: '480px', minHeight: '520px', maxWidth: '600px' }}>
-            <h2>Sign Up</h2>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '32px', marginBottom: '24px' }}>
-              <div style={{ flex: 1, minWidth: '45%' }}>
-                <input name="firstName" type="text" placeholder="First Name" style={{ ...styles.input, borderColor: signupAttempted && !signupForm.firstName.trim() ? 'red' : '#ccc' }} value={signupForm.firstName} onChange={e => { handleSignupChange(e); setSignupAttempted(true); }} />
-                <input name="phone" type="tel" placeholder="Phone Number" style={{ ...styles.input, borderColor: signupAttempted && !signupForm.phone.trim() ? 'red' : '#ccc' }} value={signupForm.phone} onChange={e => { handleSignupChange(e); setSignupAttempted(true); }} />
-                <input name="password" type="password" placeholder="Password" style={{ ...styles.input, borderColor: signupAttempted && !signupForm.password.trim() ? 'red' : '#ccc' }} value={signupForm.password} onChange={e => { handleSignupChange(e); setSignupAttempted(true); }} />
-              </div>
-              <div style={{ flex: 1, minWidth: '45%' }}>
-                <input name="lastName" type="text" placeholder="Last Name" style={{ ...styles.input, borderColor: signupAttempted && !signupForm.lastName.trim() ? 'red' : '#ccc' }} value={signupForm.lastName} onChange={e => { handleSignupChange(e); setSignupAttempted(true); }} />
-                <input name="email" type="email" placeholder="Email" style={{ ...styles.input, borderColor: signupAttempted && !signupForm.email.trim() ? 'red' : '#ccc' }} value={signupForm.email} onChange={e => { handleSignupChange(e); setSignupAttempted(true); }} />
-                <input name="confirmPassword" type="password" placeholder="Confirm Password" style={{ ...styles.input, borderColor: signupAttempted && !signupForm.confirmPassword.trim() ? 'red' : '#ccc' }} value={signupForm.confirmPassword} onChange={e => { handleSignupChange(e); setSignupAttempted(true); }} />
-              </div>
-            </div>
-            {emptyFields.length > 0 && (
-              <div style={{ color: 'red', marginBottom: '12px', fontSize: '0.95rem' }}>
-                Please fill all fields.
-              </div>
-            )}
-            {signupForm.password !== signupForm.confirmPassword && signupForm.confirmPassword.length > 0 && (
-              <div style={{ color: 'red', marginBottom: '12px', fontSize: '0.95rem' }}>
-                Password and Confirm Password do not match.
-              </div>
-            )}
-            <button
-              style={{
-                ...styles.primaryBtn,
-                width: '100%',
-                fontSize: '1rem',
-                padding: '8px 0',
-                marginBottom: '10px',
-                backgroundColor:
-                  emptyFields.length > 0 || signupForm.password !== signupForm.confirmPassword
-                    ? '#bbb'
-                    : '#7A1F28',
-                color:
-                  emptyFields.length > 0 || signupForm.password !== signupForm.confirmPassword
-                    ? '#fff'
-                    : '#fff',
-                cursor:
-                  emptyFields.length > 0 || signupForm.password !== signupForm.confirmPassword
-                    ? 'not-allowed'
-                    : 'pointer',
-                border: 'none',
-              }}
-              disabled={emptyFields.length > 0 || signupForm.password !== signupForm.confirmPassword}
-              onClick={() => setSignupAttempted(true)}
-            >
-              Sign Up
-            </button>
-            <button style={{ ...styles.closeBtn, width: '120px', fontSize: '1rem', padding: '8px 0' }} onClick={() => setShowSignup(false)}>
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+      
     </>
   );
 }

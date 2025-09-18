@@ -3,12 +3,14 @@ package com.adslide.auction.auction.controller;
 import com.adslide.auction.auction.dto.LoginRequest;
 import com.adslide.auction.auction.model.User;
 import com.adslide.auction.auction.security.JwtUtil;
+import com.adslide.auction.auction.security.MyUserDetailsService;
 import com.adslide.auction.auction.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,13 +24,15 @@ public class AuthController {
     private final JwtUtil jwtUtil;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final MyUserDetailsService userDetailsService;
 
     public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil, UserService userService,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder, MyUserDetailsService userDetailsService) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.userDetailsService = userDetailsService;
     }
 
     @PostMapping("/signup")
@@ -51,8 +55,10 @@ public class AuthController {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-            // If authentication is successful, generate a token
-            String token = jwtUtil.generateToken(authentication.getName());
+            UserDetails userDetails = userDetailsService.loadUserByUsername(authentication.getName());
+
+            // Generate the token with the full UserDetails object
+            String token = jwtUtil.generateToken((User) userDetails);
 
             // Return the token to the client
             return new ResponseEntity<>(token, HttpStatus.OK);

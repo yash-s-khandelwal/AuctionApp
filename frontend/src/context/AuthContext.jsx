@@ -11,7 +11,11 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
-        setUser(decodedToken);
+        setUser({
+          userId:decodedToken.userId,
+          username:decodedToken.sub
+        });
+        // console.log(decodedToken);
       } catch (e) {
         console.error("Invalid token:", e);
         logout();

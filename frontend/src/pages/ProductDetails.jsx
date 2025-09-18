@@ -4,6 +4,8 @@ import axios from "axios";
 import "./ProductDetails.css";
 import AuctionTimer from "../components/AuctionTimer";
 import useRazorpayScript from '../hooks/useRazorpayScript';
+import { useAuth } from "../context/AuthContext";
+import api from "../api/axiosConfig";
 
 
 
@@ -41,8 +43,8 @@ function ProductDetails() {
             }
         };
 
-        // this sets the bids to be refreshed every 5 seconds
-        const intervalId = setInterval(pollForNewBids, 5000); // Polls every 5 seconds
+        // this sets the bids to be refreshed every 10 seconds
+        const intervalId = setInterval(pollForNewBids, 10000); // Polls every 10 seconds
 
         return () => clearInterval(intervalId);
     }, [productId]);
@@ -100,7 +102,7 @@ function BidInput({ bids, minimumBid }) {
   const [errorMsg, setErrorMsg] = useState("");
   const maxBid = bids && bids.length > 0 ? Math.max(...bids.map(bid => bid.price)) : minimumBid;
   const [scriptLoaded, scriptError] = useRazorpayScript('https://checkout.razorpay.com/v1/checkout.js');
-
+  const {user} = useAuth();
   async function handleRazorpaySuccess(response) {
         const putData= {
           bidId: window.bidId,
@@ -110,8 +112,8 @@ function BidInput({ bids, minimumBid }) {
         }
         console.log(response);
         console.log(putData);
-        const successResponse = await axios.put('http://localhost:8080/api/v0/bid/updateBid', putData);
-    
+        const successResponse = await api.put('/api/v0/bid/updateBid', putData);
+        successResponse ? alert("Bid placed successfully") : alert("Bid status not updated. Amount will be refunded")
   }
 
   const handlePlaceBid = async () => {
@@ -129,14 +131,14 @@ function BidInput({ bids, minimumBid }) {
         const postData= {
           price: bidAmount,
           user: {
-            userId: 10008
+            userId: user.userId
           },
           product: {
             productId: product.productId
           },
         }
         console.log(postData);
-        const bidDetails = await axios.post('http://localhost:8080/api/v0/bid/createBid', postData);
+        const bidDetails = await api.post('/api/v0/bid/createBid', postData);
 
         // const [orderId, bidId] = bidDetails.data.split("|");
         const orderId=bidDetails.data;
