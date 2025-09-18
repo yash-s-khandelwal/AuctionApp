@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import com.adslide.auction.auction.dto.ProductWithCategoryListDto;
 import com.adslide.auction.auction.model.CategoryLink;
-import com.adslide.auction.auction.service.ImageHandlingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +32,6 @@ public class ProductController {
     private ProductService productService;
     @Autowired
     BidService bidService;
-    @Autowired
-    private ImageHandlingService imageHandlingService;
 
     @GetMapping("/allProducts")
     public ResponseEntity<?> productDetails() {

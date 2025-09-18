@@ -22,18 +22,22 @@ import Updates from "./pages/Updates";
 import LiveAuctionList from "./pages/LiveAuctionList";
 import PastAuctionList from "./pages/PastAuctionList";
 
+import { AuthProvider } from './context/AuthContext'; // Your authentication provider
+import ProtectedRoute from './components/ProtectedRoute';
+
  
 function App() {
   const [currency, setCurrency] = React.useState('USD');
   return (
-    <Router>
+    <AuthProvider>
+      <Router>
       <Navbar currency={currency} setCurrency={setCurrency} />
       <Routes>
         {/* Home page (AuctionList) */}
         <Route path="/" element={<AuctionList currency={currency} />} />
         <Route path="/auctions" element={<AuctionList currency={currency} />} />
         <Route path="/live-auctions" element={<LiveAuctionList currency={currency} />} />
-        <Route path="/passed-auctions" element={<PastAuctionList currency={currency} />} />
+        <Route path="/past-auctions" element={<PastAuctionList currency={currency} />} />
         <Route path="/hero" element={<Hero />} />
         <Route path="/users" element={<User />} />
         <Route path="/products" element={<Product />} />
@@ -59,6 +63,7 @@ function App() {
         <Route path="/profile/user-details" element={<UserDetails />} />
       </Routes>
     </Router>
+    </AuthProvider>
   );
 }
 
