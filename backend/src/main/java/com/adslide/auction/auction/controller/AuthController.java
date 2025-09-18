@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,8 +52,11 @@ public class AuthController {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-            // If authentication is successful, generate a token
-            String token = jwtUtil.generateToken(authentication.getName());
+            // Get UserDetails from authentication principal
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+            // Generate JWT token using UserDetails
+            String token = jwtUtil.generateToken(userDetails);
 
             // Return the token to the client
             return new ResponseEntity<>(token, HttpStatus.OK);
