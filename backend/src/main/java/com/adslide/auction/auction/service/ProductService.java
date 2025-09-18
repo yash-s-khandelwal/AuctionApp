@@ -28,6 +28,12 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    // Get products whose auctionEndDate is before now
+    public List<Product> getPastAuctions() {
+        java.time.LocalDateTime now = java.time.LocalDateTime.now();
+        return productRepository.findByAuctionEndDateBefore(now);
+    }
+
     // this method will return a new product with all the categories that the
     // product owner adds to it.
     public ProductWithCategoryListDto createProduct(ProductWithCategoryListDto productWithCategoryListDto) {
