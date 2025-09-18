@@ -35,19 +35,22 @@ const CategoryList = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>Categories</h2>
+      <h1>Categories</h1>
       <ul style={{ listStyle: "none", padding: 0 }}>
         {categories.map((category) => {
-          let linkTo = `/category/${category.categoryId}`;
-          const name = category.categoryName.toLowerCase();
-          if (name === 'vintage') linkTo = '/category/vintage';
-          if (name === 'fashion') linkTo = '/category/fashion';
-          if (name === 'technology') linkTo = '/category/technology';
-          if (name === 'art') linkTo = '/category/art';
-          if (name === 'collectibles') linkTo = '/category/collectibles';
+          // let linkTo = `/category/${category.categoryId}`;
+          // const name = category.categoryName.toLowerCase();
+          // if (name === 'vintage') linkTo = '/category/vintage';
+          // if (name === 'fashion') linkTo = '/category/fashion';
+          // if (name === 'technology') linkTo = '/category/technology';
+          // if (name === 'art') linkTo = '/category/art';
+          // if (name === 'collectibles') linkTo = '/category/collectibles';
+          // if (name === 'jewelry') linkTo = '/category/jewelry';
+          // if (name === 'home and living' || name === 'home & living' || name === 'home-and-living') linkTo = '/category/home-and-living';
+          // if (name === 'sports memorabilia' || name === 'sports-memorabilia') linkTo = '/category/sports-memorabilia';
           return (
             <li key={category.categoryId} style={{ marginBottom: "8px" }}>
-              <Link to={linkTo} style={{ textDecoration: "none", color: "black" }}>
+              <Link to='/category/'{...category.categoryId} style={{ textDecoration: "none", color: "black" }}>
                 {category.categoryName}
               </Link>
             </li>

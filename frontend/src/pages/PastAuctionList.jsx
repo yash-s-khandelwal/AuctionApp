@@ -13,30 +13,24 @@ function PastAuctionList() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/v0/product/allProducts");
-        // Only show auctions where current time > auctionEndDate
-        const now = new Date();
-        let passed = response.data.filter(p => new Date(p.auctionEndDate) <= now);
-        // If no passed auctions, add some mock data
-        if (passed.length === 0) {
-          passed = [
-            {
-              productId: "mock1",
-              productName: "Vintage Clock",
-              price: 120,
-              auctionStartDate: "2025-08-01T10:00:00Z",
-              auctionEndDate: "2025-08-10T10:00:00Z"
-            },
-            {
-              productId: "mock2",
-              productName: "Antique Vase",
-              price: 250,
-              auctionStartDate: "2025-07-15T09:00:00Z",
-              auctionEndDate: "2025-07-20T09:00:00Z"
-            }
-          ];
-        }
-        setProducts(passed);
+        const response = await axios.get("http://localhost:8080/api/v0/product/pastAuctions");
+        // Response is already filtered by backend
+        setProducts(response.data.length > 0 ? response.data : [
+          {
+            productId: "mock1",
+            productName: "Vintage Clock",
+            price: 120,
+            auctionStartDate: "2025-08-01T10:00:00Z",
+            auctionEndDate: "2025-08-10T10:00:00Z"
+          },
+          {
+            productId: "mock2",
+            productName: "Antique Vase",
+            price: 250,
+            auctionStartDate: "2025-07-15T09:00:00Z",
+            auctionEndDate: "2025-07-20T09:00:00Z"
+          }
+        ]);
       } catch (err) {
         setError(err.message || "Something went wrong");
       } finally {

@@ -44,10 +44,10 @@ function App() {
         <Route path="/productDetails" element={<ProductPage />} />
         <Route path="/categories" element={<CategoryList />} />
   <Route path="/category/:id" element={<CategoryPage currency={currency} />} />
-  <Route path="/category/art" element={<ArtPage />} />
+  {/* <Route path="/category/art" element={<ArtPage />} />
   <Route path="/category/collectibles" element={<CollectiblesPage />} />
   <Route path="/category/technology" element={<TechnologyPage />} />
-  <Route path="/category/fashion" element={<FashionPage />} />
+  <Route path="/category/fashion" element={<FashionPage />} /> */}
   <Route path="/product/:productId" element={<ProductDetails currency={currency} />} />
         <Route path="/updates" element={<Updates />} />
         <Route path="/updates-full" element={<UpdatesFull />} />
