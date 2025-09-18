@@ -213,7 +213,7 @@ function Navbar({ currency = 'INR', setCurrency = () => {} }) { // INR default
             <h2>Login</h2>
             <input type="email" placeholder="Email" style={styles.input} />
             <input type="password" placeholder="Password" style={styles.input} />
-            <button style={styles.primaryBtn}>Login</button>
+            <button style={styles.primaryBtn} >Login</button>
             <button style={styles.closeBtn} onClick={() => setShowLogin(false)}>
               Close
             </button>

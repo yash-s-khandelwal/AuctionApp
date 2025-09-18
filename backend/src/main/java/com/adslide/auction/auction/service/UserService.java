@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 import com.adslide.auction.auction.model.User;
 import com.adslide.auction.auction.repository.UserRepository;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 @Service
 public class UserService {
-    //all methods do what is stated in their name
+    // all methods do what is stated in their name
 
     @Autowired
     private UserRepository userRepository;
@@ -24,18 +26,17 @@ public class UserService {
     }
 
     public User createUser(User newUser) {
-        if(userRepository.findByUsername(newUser.getUsername()).isPresent()){
+        if (userRepository.findByUsername(newUser.getUsername()).isPresent()) {
             throw new DuplicateUserException("Username already exists, please choose another username.");
         }
 
-        if(userRepository.findByEmail(newUser.getEmail()).isPresent()){
+        if (userRepository.findByEmail(newUser.getEmail()).isPresent()) {
             throw new DuplicateUserException("Email already in use, please use it to login");
         }
 
-        if(userRepository.findByPhoneNumber(newUser.getPhoneNumber()).isPresent()){
+        if (userRepository.findByPhoneNumber(newUser.getPhoneNumber()).isPresent()) {
             throw new DuplicateUserException("Phone Number already in use, please use the account associated with it.");
         }
-
         return userRepository.saveAndFlush(newUser);
 
     }
