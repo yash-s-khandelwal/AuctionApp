@@ -188,11 +188,11 @@ function Navbar({ currency = 'INR', setCurrency = () => { } }) { // INR default
       <div className="menu-bar">
         <Link to="/live-auctions" className="menu-link">LIVE AUCTION</Link>
         <Link to="/passed-auctions" className="menu-link">PAST AUCTION</Link>
-        <Link to="/category/vintage" className="menu-link">VINTAGE</Link>
-        <Link to="/category/fashion" className="menu-link">FASHION</Link>
-        <Link to="/category/technology" className="menu-link">TECHNOLOGY</Link>
-        <Link to="/category/art" className="menu-link">ART</Link>
-        <Link to="/category/collectibles" className="menu-link">COLLECTIBLES</Link>
+        <Link to="/category/10000/vintage" className="menu-link">VINTAGE</Link>
+        <Link to="/category/10001/Fashion" className="menu-link">FASHION</Link>
+        <Link to="/category/10002/technology" className="menu-link">TECHNOLOGY</Link>
+        <Link to="/category/10003/art" className="menu-link">ART</Link>
+        <Link to="/category/10004/collectibles" className="menu-link">COLLECTIBLES</Link>
         <span
           className="menu-link"
           style={{ cursor: "pointer", fontWeight: 500 }}
