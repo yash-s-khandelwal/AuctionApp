@@ -1,28 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import productMock from "../data/productMock";
 
 const categories = [
   "VINTAGE",
   "FASHION",
   "TECHNOLOGY",
+  "COLLECTIBLES",
   "ART",
-  "COLLECTIBLES"
+  "JEWELRY",
+  "HOME & LIVING",
+  "SPORTS MEMORABILIA",
+  "RARE ITEMS",
+  "HANDMADE CRAFTS",
+  "BOOKS",
+  "ELECTRONICS",
+  "FURNITURE",
+  "TIMEPIECES",
+  "VEHICLES",
+  "ANTIQUES",
+  "FINE ART",
+  "PHOTOGRAPHY",
+  "CLOTHING",
+  "ACCESSORIES",
+  "WATCHES & ACCESSORIES"
 ];
 
 function getCategoryForProduct(product) {
   // Direct mapping by category for filtering
-  if (!product.category) return "OTHER";
-  return product.category.toUpperCase();
+   if (!product.category) return "OTHER";
+   return product.category.toUpperCase();
 }
 
 function CategoryProducts() {
   const [selected, setSelected] = useState("VINTAGE");
+  const [showCategories, setShowCategories] = useState(false);
+  const categoryPopupRef = useRef();
   const filtered = productMock.filter(
     p => getCategoryForProduct(p) === selected
   );
 
+  useEffect(() => {
+    if (!showCategories) return;
+    function handleClickOutside(event) {
+      if (
+        categoryPopupRef.current &&
+        !categoryPopupRef.current.contains(event.target)
+      ) {
+        setShowCategories(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showCategories]);
+
   return (
-    <div>
+    <div style={{ position: "relative" }}>
+      <button
+        style={{ margin: "16px", padding: "8px 16px", fontSize: "1rem" }}
+        onClick={() => setShowCategories(true)}
+      >
+        Show Categories Dropdown
+      </button>
       <div style={{ display: "flex", justifyContent: "center", gap: "64px", margin: "32px 0" }}>
         {categories.map(cat => (
           <span
@@ -55,8 +95,19 @@ function CategoryProducts() {
           ))
         )}
       </div>
+      {showCategories && (
+        <div
+          className="category-popup"
+          ref={categoryPopupRef}
+          style={{ position: "fixed", top: "120px", right: "40px", zIndex: 1000, background: "#fff", border: "1px solid #ccc", padding: "16px", boxShadow: "0 2px 8px #aaa" }}
+          onClick={e => e.stopPropagation()}
+        >
+          <div>Category Dropdown Content (Click outside to close)</div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default CategoryProducts;
+
