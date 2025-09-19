@@ -36,7 +36,7 @@ function LoginForm({ onClose }) {
   };
 
   return (
-    <div className="login-form-modal">
+    <div className="login-form-modal" style={{ padding:'20px', margin:'auto'}}>
       <h2>Log In</h2>
       <form onSubmit={handleLogin}>
         {error && <div style={{ color: 'red' }}>{error}</div>}
@@ -45,6 +45,8 @@ function LoginForm({ onClose }) {
         <button type="submit" style={{ ...styles.primaryBtn, width: '100%' }}
           disabled={loading}>{loading ? 'Logging in...' : 'Log In'}</button>
       </form>
+        <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+
       <button className="close-btn" style={{ ...styles.closeBtn, width: '120px' }} onClick={onClose}>Close</button>
     </div>
   );

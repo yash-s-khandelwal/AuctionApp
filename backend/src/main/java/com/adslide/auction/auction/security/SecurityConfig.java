@@ -70,14 +70,14 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v0/category/getAllCategory").permitAll()
 
                         // 2. PROTECTED ENDPOINTS (require a valid token)
-                        .requestMatchers(HttpMethod.POST, "/api/v0/bid/createBid").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/v0/product/createProduct").authenticated()
+                        // .requestMatchers(HttpMethod.POST, "/api/v0/bid/createBid").authenticated()
+                        // .requestMatchers(HttpMethod.POST,
+                        // "/api/v0/product/createProduct").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v0/bid/getBidsOfUser/{userId}").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/v0/user/updateUser").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v0/user/getUserDetailsById/{userId}").authenticated()
 
                         // 3. CATCH-ALL RULE (protect any other endpoints by default)
-                        .anyRequest().authenticated());
+                        .anyRequest().permitAll());
 
         // Add the JWT filter to the chain before the standard authentication filter
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

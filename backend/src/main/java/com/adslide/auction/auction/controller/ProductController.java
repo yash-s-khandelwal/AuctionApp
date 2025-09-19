@@ -1,7 +1,6 @@
 
 package com.adslide.auction.auction.controller;
 
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +43,8 @@ public class ProductController {
                         product.getProductName(),
                         product.getMinimumBid(),
                         product.getAuctionStartDate(),
-                        product.getAuctionEndDate()))
+                        product.getAuctionEndDate(),
+                        product.getImageUrl()))
                 .collect(Collectors.toList());
         return new ResponseEntity<>(allProductListDto, HttpStatus.OK);
     }
@@ -81,13 +81,14 @@ public class ProductController {
     public ResponseEntity<?> getPastAuctions() {
         List<Product> pastProducts = productService.getPastAuctions();
         List<AllProductListDto> pastProductListDto = pastProducts.stream()
-            .map(product -> new AllProductListDto(
-                product.getProductId(),
-                product.getProductName(),
-                product.getMinimumBid(),
-                product.getAuctionStartDate(),
-                product.getAuctionEndDate()))
-            .collect(Collectors.toList());
+                .map(product -> new AllProductListDto(
+                        product.getProductId(),
+                        product.getProductName(),
+                        product.getMinimumBid(),
+                        product.getAuctionStartDate(),
+                        product.getAuctionEndDate(),
+                        product.getImageUrl()))
+                .collect(Collectors.toList());
         return new ResponseEntity<>(pastProductListDto, HttpStatus.OK);
     }
 }

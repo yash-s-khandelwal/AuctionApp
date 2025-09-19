@@ -154,6 +154,7 @@ function BidInput({ bids, minimumBid }) {
           amount: bidAmount * 100, // Amount in currency subunits
           currency: "INR",
           name: "RareSphere",
+          image:'https://res.cloudinary.com/dhqjlw5gi/image/upload/v1758222971/1_prcley.png',
           description: "Bid for " + product.productName,
           order_id: orderId, // The ID you got from your backend
           handler: (response) => {
@@ -165,6 +166,7 @@ function BidInput({ bids, minimumBid }) {
           //   contact: user.contact,
           // },
           theme: { color: "#7a1528" }
+          
         };
 
         // Step 3: Open the Razorpay popup

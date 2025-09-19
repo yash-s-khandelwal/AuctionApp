@@ -41,26 +41,21 @@ function App() {
         <Route path="/hero" element={<Hero />} />
         <Route path="/users" element={<User />} />
         <Route path="/products" element={<Product />} />
-        <Route path="/bids" element={<Bid />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        {/* <Route path="/bids" element={<Bid />} /> */}
+        <Route path="/login" element={<LoginForm/>} />
+        <Route path="/signup" element={<SignupForm />} />
         <Route path="/search" element={<SearchResults />} />
         <Route path="/productDetails" element={<ProductPage />} />
         <Route path="/categories" element={<CategoryList />} />
-  <Route path="/category/:id" element={<CategoryPage currency={currency} />} />
-  {/* <Route path="/category/art" element={<ArtPage />} />
-  <Route path="/category/collectibles" element={<CollectiblesPage />} />
-  <Route path="/category/technology" element={<TechnologyPage />} />
-  <Route path="/category/fashion" element={<FashionPage />} /> */}
+  <Route path="/category/:categoryId/:categoryName" element={<CategoryPage currency={currency} />} />
   <Route path="/product/:productId" element={<ProductDetails currency={currency} />} />
         <Route path="/updates" element={<Updates />} />
         <Route path="/updates-full" element={<UpdatesFull />} />
         {/* Profile and its sections */}
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profile/create-product" element={<CreateProduct />} />
-        <Route path="/profile/my-bids" element={<MyBids currency={currency} />} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/profile/create-product" element={<ProtectedRoute><CreateProduct /></ProtectedRoute>} />
+        <Route path="/profile/my-bids" element={<ProtectedRoute><MyBids currency={currency} /> </ProtectedRoute>} />
         <Route path="/profile/my-products" element={<MyProducts currency={currency} />} />
-        <Route path="/profile/user-details" element={<UserDetails />} />
       </Routes>
     </Router>
     </AuthProvider>
@@ -73,4 +68,6 @@ import Profile from "./pages/Profile";
 import CreateProduct from "./pages/CreateProduct";
 import MyBids from "./pages/MyBids";
 import MyProducts from "./pages/MyProducts";
-import UserDetails from "./pages/UserDetails";
+import UserDetails from "./pages/UserDetails";import LoginForm from "./components/Auth/LoginForm";
+import SignupForm from "./components/Auth/SignupForm";
+

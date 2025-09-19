@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+import api from "../api/axiosConfig";
 
 function CreateProduct() {
   const [form, setForm] = useState({
@@ -17,6 +19,7 @@ function CreateProduct() {
   const [loading, setLoading] = useState(false);
   const [allCategories, setAllCategories] = useState([]); // State for fetched categories
   const [categoriesLoading, setCategoriesLoading] = useState(true);
+  const {user} = useAuth();
 
   // Load the userId from localStorage and fetch categories on component mount
   useEffect(() => {
@@ -87,10 +90,10 @@ function CreateProduct() {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    // if (!userId) {
-    //   setMessage("You must be logged in to create a product.");
-    //   return;
-    // }
+    if (!user.userId) {
+      setMessage("You must be logged in to create a product.");
+      return;
+    }
     setLoading(true);
 
     // console.log("Image file in state:", form.image); // <-- Add this debug log
@@ -113,7 +116,7 @@ function CreateProduct() {
         auctionEndDate: form.endTime,
         imageUrl: imageUrl,
         user: {
-          userId: 10026 //parseInt(userId)
+          userId: user.userId
         }
       },
       // Map the array of selected category IDs to a list of CategoryLink objects
@@ -124,7 +127,7 @@ function CreateProduct() {
       }))
     };
  
-      const res = await axios.post("http://localhost:8080/api/v0/product/createProduct", productDetailsDto, {
+      const res = await api.post("/api/v0/product/createProduct", productDetailsDto, {
         headers: {
         //   // "Content-Type": "multipart/form-data",
         }
@@ -209,7 +212,7 @@ function CreateProduct() {
           <label>Categories:</label><br />
           <input type="text" name="categories" value={form.categories.join(", ")} readOnly style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} />
         </div>
-        <button type="submit" disabled={loading} style={{ background: "#7A1528", color: "#fff", padding: "12px 32px", borderRadius: "8px", fontWeight: "bold", fontSize: "16px", border: "none", cursor: "pointer" }}>Create Product</button>
+        <button type="submit" disabled={loading} style={{ background: "#7A1528", color: "#fff", padding: "12px 32px", borderRadius: "8px", fontWeight: "bold", fontSize: "16px", border: "none", cursor: "pointer" }}>{loading?"Creating Product":"Create Product"}</button>
         {message && <div style={{ marginTop: "18px", color: message.includes("success") ? "green" : "red" }}>{message}</div>}
       </form>
     </div>
