@@ -7,7 +7,7 @@ function SignupForm({ onClose }) {
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
-    phone: '',
+    phoneNumber: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -52,23 +52,24 @@ function SignupForm({ onClose }) {
     e.preventDefault();
     setLoading(true);
     setMessage('');
-    
+
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setLoading(false);
       return;
     }
-    
+
     setErrors({});
-    
+
     try {
       const response = await api.post('api/auth/signup', form);
       if (response.status === 201) {
         setMessage('Registration successful! You can now log in.');
-        setForm({ firstName: '', lastName: '', phone: '', email: '', password: '', confirmPassword: '' });
+        setForm({ username: '', firstName: '', lastName: '', phoneNumber: '', email: '', password: '', confirmPassword: '' });
       }
     } catch (error) {
+      console.log(error)
       if (error.response) {
         setMessage(error.response.data);
       } else {
@@ -80,50 +81,55 @@ function SignupForm({ onClose }) {
   };
 
   return (
-    <div>
-    <form onSubmit={handleSubmit}>
-      {message && <div style={{ color: message.includes('successful') ? 'green' : 'red', marginBottom: '12px', fontSize: '0.95rem' }}>{message}</div>}
-      
-      <div style={styles.grid} className="signup-grid">
-        <div style={styles.gridItem} className="signup-grid-item">
-          <input name="firstName" type="text" placeholder="First Name" style={styles.input} value={form.firstName} onChange={handleChange} />
-          {errors.firstName && <span style={styles.error}>{errors.firstName}</span>}
-        </div>
-        <div style={styles.gridItem} className="signup-grid-item">
-          <input name="lastName" type="text" placeholder="Last Name" style={styles.input} value={form.lastName} onChange={handleChange} />
-          {errors.lastName && <span style={styles.error}>{errors.lastName}</span>}
-        </div>
-        <div style={styles.gridItem} className="signup-grid-item">
-          <input name="phone" type="tel" placeholder="Phone Number" style={styles.input} value={form.phone} onChange={handleChange} />
-          {errors.phone && <span style={styles.error}>{errors.phone}</span>}
-        </div>
-        <div style={styles.gridItem} className="signup-grid-item">
-          <input name="email" type="email" placeholder="Email" style={styles.input} value={form.email} onChange={handleChange} />
-          {errors.email && <span style={styles.error}>{errors.email}</span>}
-        </div>
-        <div style={styles.gridItem} className="signup-grid-item">
-          <input name="password" type="password" placeholder="Password" style={styles.input} value={form.password} onChange={handleChange} />
-          {errors.password && <span style={styles.error}>{errors.password}</span>}
-        </div>
-        <div style={styles.gridItem} className="signup-grid-item">
-          <input name="confirmPassword" type="password" placeholder="Confirm Password" style={styles.input} value={form.confirmPassword} onChange={handleChange} />
-          {errors.confirmPassword && <span style={styles.error}>{errors.confirmPassword}</span>}
-        </div>
-      </div>
+    <div style={{padding:'20px', margin:'auto'}}>
+      <form onSubmit={handleSubmit}>
+        {message && <div style={{ color: message.includes('successful') ? 'green' : 'red', marginBottom: '12px', fontSize: '0.95rem' }}>{message}</div>}
 
-          <button
-            type="submit"
-            style={{ ...styles.primaryBtn, width: '100%' }}
-            disabled={loading}
-          >
-            {loading ? 'Registering...' : 'Sign Up'}
-          </button>
-        </form>
-        <button style={{ ...styles.closeBtn, width: '120px' }} onClick={onClose}>
-          Close
+        <div style={styles.grid} className="signup-grid">
+        <div style={styles.gridItem} className="signup-grid-item">
+            <input name="username" type="text" placeholder="Username" style={styles.input} value={form.username} onChange={handleChange} />
+            {errors.username && <span style={styles.error}>{errors.firstName}</span>}
+          </div>
+          <div style={styles.gridItem} className="signup-grid-item">
+            <input name="firstName" type="text" placeholder="First Name" style={styles.input} value={form.firstName} onChange={handleChange} />
+            {errors.firstName && <span style={styles.error}>{errors.firstName}</span>}
+          </div>
+          <div style={styles.gridItem} className="signup-grid-item">
+            <input name="lastName" type="text" placeholder="Last Name" style={styles.input} value={form.lastName} onChange={handleChange} />
+            {errors.lastName && <span style={styles.error}>{errors.lastName}</span>}
+          </div>
+          <div style={styles.gridItem} className="signup-grid-item">
+            <input name="phoneNumber" type="tel" placeholder="Phone Number" style={styles.input} value={form.phoneNumber} onChange={handleChange} />
+            {errors.phone && <span style={styles.error}>{errors.phone}</span>}
+          </div>
+          <div style={styles.gridItem} className="signup-grid-item">
+            <input name="email" type="email" placeholder="Email" style={styles.input} value={form.email} onChange={handleChange} />
+            {errors.email && <span style={styles.error}>{errors.email}</span>}
+          </div>
+          <div style={styles.gridItem} className="signup-grid-item">
+            <input name="password" type="password" placeholder="Password" style={styles.input} value={form.password} onChange={handleChange} />
+            {errors.password && <span style={styles.error}>{errors.password}</span>}
+          </div>
+          <div style={styles.gridItem} className="signup-grid-item">
+            <input name="confirmPassword" type="password" placeholder="Confirm Password" style={styles.input} value={form.confirmPassword} onChange={handleChange} />
+            {errors.confirmPassword && <span style={styles.error}>{errors.confirmPassword}</span>}
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          style={{ ...styles.primaryBtn, width: '100%' }}
+          disabled={loading}
+        >
+          {loading ? 'Registering...' : 'Sign Up'}
         </button>
-      </div>
-  
+      </form>
+        <p>Already have an account? <a href="/login">Log in</a></p>
+      <button style={{ ...styles.closeBtn, width: '120px' }} onClick={onClose}>
+        Close
+      </button>
+    </div>
+
   );
 }
 
@@ -174,6 +180,23 @@ const styles = {
     borderRadius: "5px",
     cursor: "pointer",
   },
+  // --- New styles for the Signup Form ---
+  grid: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '16px', // Gap between grid items
+    marginBottom: '24px',
+  },
+  gridItem: {
+    flex: '1 1 48%', // Each item takes up roughly 48% of the space
+    minWidth: '150px',
+  },
+  error: {
+    color: 'red',
+    fontSize: '0.8rem',
+    marginTop: '-8px',
+    display: 'block',
+  }
 };
 
 

@@ -70,10 +70,8 @@ function Navbar({ currency = 'INR', setCurrency = () => { } }) { // INR default
             onMouseOver={e => (e.currentTarget.style.background = "#f5e6ec")}
             onMouseOut={e => (e.currentTarget.style.background = "transparent")}
           >
-            <span style={{ marginRight: "10px", fontSize: "2.1rem", display: 'flex', alignItems: 'center' }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#7A1528" viewBox="0 0 24 24"><path d="M12 3l10 9h-3v9h-6v-6h-2v6H5v-9H2z" /></svg>
-            </span>
-            <span className="brand" style={{ fontSize: '2.4rem', fontWeight: 'bold', letterSpacing: '0.04em' }}>RareSphere</span>
+            <img src='https://res.cloudinary.com/dhqjlw5gi/image/upload/v1758222971/1_prcley.png' width={40}></img>
+            <span className="brand" style={{ fontFamily:'Abril Fatface', fontSize: '2.4rem', fontWeight: 'bold', letterSpacing: '0.04em' }}>RareSphere</span>
           </Link>
         </div>
 
