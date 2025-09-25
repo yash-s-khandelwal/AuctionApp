@@ -40,10 +40,10 @@ const CategoryPage = () => {
         {products.length > 0 ? (
           products.map(product => (
             <div className="auction-card stylish-card" key={product.productId}>
-              <img src={`https://picsum.photos/seed/${product.productId}/400/300`} alt={product.productName} className="auction-img" />
+              <img src={product.imageUrl?product.imageUrl:`https://picsum.photos/seed/${product.productId}/400/300`} alt={product.productName} className="auction-img" />
               <h3 style={{ fontSize: '1.3rem', fontWeight: '700', color: '#222', margin: '1rem 0 0.5rem' }}>{product.productName}</h3>
               <p style={{ fontWeight: '600', color: '#333' }}>
-                Minimum Bid: <span style={{ color: 'rgba(18, 18, 19, 1)' }}>${product.minimumBid}</span>
+                Minimum Bid: <span style={{ color: 'rgba(18, 18, 19, 1)' }}>₹{product.minimumBid}</span>
               </p>
               <p style={{ color: '#555', fontSize: '1rem' }}>Auction: {new Date(product.auctionStartDate).toLocaleDateString()} - {new Date(product.auctionEndDate).toLocaleDateString()}</p>
               <Link to={`/product/${product.productId}`} className="auction-link" style={{ display: 'inline-block', marginTop: '1rem', background: '#7A1528', color: '#fff', padding: '0.5rem 1.2rem', borderRadius: '8px', fontWeight: '600', textDecoration: 'none', transition: 'background 0.2s' }}>View Details</Link>

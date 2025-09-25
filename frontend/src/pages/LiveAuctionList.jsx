@@ -3,7 +3,6 @@ import { useSearch } from "../context/SearchContext";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./AuctionList.css";
-import productMock from '../data/productMock';
 
 function LiveAuctionList() {
   const [products, setProducts] = useState([]);
@@ -58,14 +57,7 @@ function LiveAuctionList() {
     <div className="auction-list stylish-bg">
       <h2 className="auction-title" style={{fontSize: '2.2rem', fontWeight: '700', color: '#222', marginBottom: '2rem'}}>Live Auctions</h2>
       <div className="auction-grid stylish-grid">
-        {filteredProducts.map((p) => {
-          // Try to get image from API, else fallback to productMock by name
-          let imgSrc = p.image;
-          if (!imgSrc) {
-            const mock = productMock.find(m => m.name === p.productName || m.name === p.name);
-            imgSrc = mock ? mock.image : `https://picsum.photos/seed/${p.productId}/400/300`;
-          }
-          return (
+        {filteredProducts.map((p) => {(
             <div className="auction-card stylish-card" key={p.productId} style={{
               background: '#fff',
               borderRadius: '8px',
@@ -79,7 +71,7 @@ function LiveAuctionList() {
               minWidth: '260px',
               maxWidth: '340px',
             }}>
-              <img src={imgSrc} alt={p.productName} className="auction-img" style={{
+              <img src={p.imageUrl?p.imageUrl:`https://picsum.photos/seed/${p.productId}/400/300`} alt={p.productName} className="auction-img" style={{
                 borderRadius: '14px',
                 boxShadow: '0 6px 24px rgba(122,21,40,0.13)',
                 width: '100%',
@@ -106,7 +98,7 @@ function LiveAuctionList() {
                 margin: '0 0 0.7rem',
                 textAlign: 'center',
               }}>
-                MinimumBid: <span style={{color: '#7A1528', fontWeight: '700'}}>{currencySymbols[currency]}{convertPrice(p.price, 'USD', currency)}</span>
+                MinimumBid: <span style={{color: '#7A1528', fontWeight: '700'}}>₹{p.price}</span>
               </p>
               <p style={{
                 color: '#7A1528',

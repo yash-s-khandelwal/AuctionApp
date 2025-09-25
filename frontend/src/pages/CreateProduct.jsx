@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import api from "../api/axiosConfig";
+import { useNavigate } from "react-router-dom";
 
 function CreateProduct() {
   const [form, setForm] = useState({
@@ -20,6 +21,7 @@ function CreateProduct() {
   const [allCategories, setAllCategories] = useState([]); // State for fetched categories
   const [categoriesLoading, setCategoriesLoading] = useState(true);
   const {user} = useAuth();
+  const navigate = useNavigate();
 
   // Load the userId from localStorage and fetch categories on component mount
   useEffect(() => {
@@ -133,9 +135,12 @@ function CreateProduct() {
         }
       });
       if (res.status === 201) {
+        console.log(res);
         setMessage("Product created successfully!");
         setForm({ image: null, title: "", description: "", minBid: "", startTime: "", endTime: "", categories: [] });
         setPreview(null);
+        navigate(`/product/${res.data.productDetails.productId}`);
+        
       } else {
         setMessage("Failed to create product.");
       }
@@ -210,7 +215,17 @@ function CreateProduct() {
         </div>
         <div style={{ marginBottom: "18px" }}>
           <label>Categories:</label><br />
-          <input type="text" name="categories" value={form.categories.join(", ")} readOnly style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} />
+          <input type="text" name="categories" value={
+        form.categories
+            .map(id => {
+                // Find the category object in the fetched array by its ID
+                const category = allCategories.find(cat => cat.categoryId === id);
+                // Return the category name, or null if it's not found
+                return category?.categoryName;
+            })
+            .filter(Boolean) // This removes any potential null or undefined values
+            .join(", ")
+    } readOnly style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }} />
         </div>
         <button type="submit" disabled={loading} style={{ background: "#7A1528", color: "#fff", padding: "12px 32px", borderRadius: "8px", fontWeight: "bold", fontSize: "16px", border: "none", cursor: "pointer" }}>{loading?"Creating Product":"Create Product"}</button>
         {message && <div style={{ marginTop: "18px", color: message.includes("success") ? "green" : "red" }}>{message}</div>}

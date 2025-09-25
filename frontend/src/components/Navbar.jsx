@@ -4,10 +4,8 @@ import "./Navbar.css";
 import SearchBar from "./SearchBar";
 import { useSearch } from "../context/SearchContext";
 import CategoryList from "../pages/CategoryList";
-import api from "../api/axiosConfig";
 import LoginForm from "./Auth/LoginForm"; // Import the new components
 import SignupForm from "./Auth/SignupForm";
-import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../context/AuthContext";
 
 function Navbar({ currency = 'INR', setCurrency = () => { } }) { // INR default
@@ -21,7 +19,6 @@ function Navbar({ currency = 'INR', setCurrency = () => { } }) { // INR default
     { code: 'EUR', label: '🇪🇺' },
     { code: 'GBP', label: '🇬🇧' }
   ];
-  const isLoggedIn = localStorage.getItem("token");
   const [showCurrencyDropdown, setShowCurrencyDropdown] = useState(false);
 
   // Use global search context
@@ -187,7 +184,7 @@ function Navbar({ currency = 'INR', setCurrency = () => { } }) { // INR default
       {/* Menu Bar - auctions sequence */}
       <div className="menu-bar">
         <Link to="/live-auctions" className="menu-link">LIVE AUCTION</Link>
-        <Link to="/passed-auctions" className="menu-link">PAST AUCTION</Link>
+        <Link to="/past-auctions" className="menu-link">PAST AUCTION</Link>
         <Link to="/category/10000/vintage" className="menu-link">VINTAGE</Link>
         <Link to="/category/10001/Fashion" className="menu-link">FASHION</Link>
         <Link to="/category/10002/technology" className="menu-link">TECHNOLOGY</Link>
