@@ -27,15 +27,6 @@ function LiveAuctionList() {
     fetchProducts();
   }, []);
 
-  // Currency conversion logic
-  const conversionRates = { USD: 1, INR: 83, EUR: 0.93, GBP: 0.8 };
-  const currencySymbols = { USD: '$', INR: '₹', EUR: '€', GBP: '£' };
-  const currency = typeof window !== 'undefined' && window.__AUCTION_CURRENCY_PROPS__ ? window.__AUCTION_CURRENCY_PROPS__.currency : 'USD';
-  function convertPrice(price, from, to) {
-    if (from === to) return price;
-    return Math.round(price * (conversionRates[to] / conversionRates[from]));
-  }
-
   // Filter products by search query (name, description, seller fields)
   const filteredProducts = products.filter(p => {
     const query = searchQuery.trim().toLowerCase();
@@ -57,7 +48,10 @@ function LiveAuctionList() {
     <div className="auction-list stylish-bg">
       <h2 className="auction-title" style={{fontSize: '2.2rem', fontWeight: '700', color: '#222', marginBottom: '2rem'}}>Live Auctions</h2>
       <div className="auction-grid stylish-grid">
-        {filteredProducts.map((p) => {(
+        {filteredProducts.map((p) => {
+          // Try to get image from API, else fallback to productMock by name
+
+          return  (
             <div className="auction-card stylish-card" key={p.productId} style={{
               background: '#fff',
               borderRadius: '8px',
@@ -98,7 +92,7 @@ function LiveAuctionList() {
                 margin: '0 0 0.7rem',
                 textAlign: 'center',
               }}>
-                MinimumBid: <span style={{color: '#7A1528', fontWeight: '700'}}>₹{p.price}</span>
+                MinimumBid: <span style={{color: '#7A1528', fontWeight: '700'}}>₹ {p.price}</span>
               </p>
               <p style={{
                 color: '#7A1528',

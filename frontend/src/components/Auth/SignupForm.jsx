@@ -57,7 +57,7 @@ function SignupForm({ onClose }) {
     setErrors({});
     
     try {
-      const response = await api.post('api/auth/signup', form);
+      const response = await api.post('api/v0/auth/signup', form);
       if (response.status === 201) {
         setMessage('Registration successful! You can now log in.');
         setForm({ username: '', firstName: '', lastName: '', phoneNumber: '', email: '', password: '', confirmPassword: '' });

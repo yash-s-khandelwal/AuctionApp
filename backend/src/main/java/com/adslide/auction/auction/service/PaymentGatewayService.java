@@ -1,12 +1,10 @@
 package com.adslide.auction.auction.service;
 
+import com.adslide.auction.auction.model.Bid;
+import com.razorpay.*;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import com.razorpay.Order;
-import com.razorpay.RazorpayClient;
-import com.razorpay.RazorpayException;
 
 @Service
 public class PaymentGatewayService {
@@ -32,6 +30,23 @@ public class PaymentGatewayService {
 
         Order order = razorpayClient.orders.create(orderRequest);
         return order.toString();
+    }
+
+    public String createRefund(Bid completeBid) throws RazorpayException{
+        RazorpayClient razorpay = new RazorpayClient(razorpayKeyId,razorpayKeySecret);
+
+        String paymentId = completeBid.getRazorpayPaymentId();
+
+        JSONObject refundRequest = new JSONObject();
+        refundRequest.put("amount",(int)completeBid.getPrice()*100);
+        refundRequest.put("speed","normal");
+        JSONObject notes = new JSONObject();
+        notes.put("refund reason","Cancelled Bid");
+        refundRequest.put("notes",notes);
+        refundRequest.put("receipt",completeBid.getBidId().toString());
+
+        Refund refund = razorpay.payments.refund(paymentId,refundRequest);
+        return refund.toString();
     }
 
 }

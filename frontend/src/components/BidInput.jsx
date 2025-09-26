@@ -90,7 +90,7 @@ const BidInput = memo(({ maxBid, minimumBid, product }) => {
       } catch (error) {
         console.log(error)
         console.error("Failed to create Razorpay order:", error.response.data, error.response.description);
-        alert("Failed to create payment order.");
+        alert(error.response.data.message);
       }
     };
 

@@ -23,7 +23,7 @@ function LoginForm({ onClose }) {
     setError(null);
     console.log(loginForm)
     try {
-      const response = await api.post('api/auth/login', loginForm);
+      const response = await api.post('api/v0/auth/login', loginForm);
       login(response.data); // Store JWT token in context
       onClose(); // Close the modal
     } catch (err) {

@@ -18,6 +18,7 @@ const CategoryPage = () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/v0/category/getProductInCategory/${categoryId}`);
         setProducts(response.data);
+        console.log(response.data);
       } catch (err) {
         setError('Failed to fetch products for this category.');
       } finally {

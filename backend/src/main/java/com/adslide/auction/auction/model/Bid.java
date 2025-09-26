@@ -14,9 +14,8 @@ import lombok.Data;
 @Table(name = "Bid")
 // bid entity for placing bids
 public class Bid {
-    public Bid() {
-    }
 
+    // Getter methods for missing fields
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bidId;
@@ -36,25 +35,5 @@ public class Bid {
     // @com.fasterxml.jackson.annotation.JsonIgnore
     private Product product;
 
-    // Getter methods for missing fields
-    public Long getBidId() {
-        return bidId;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product bidProduct) {
-        this.product = bidProduct;
-    }
 
 }

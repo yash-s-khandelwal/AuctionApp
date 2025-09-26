@@ -31,6 +31,11 @@ public class BidService {
         return bidRepository.findByUserUserId(userId);
     }
 
+    public Bid getBidDetails(Long bidId){
+        return bidRepository.findById(bidId)
+                .orElseThrow(() -> new IllegalStateException("No such bid found"));
+    }
+
     public Bid createBid(Bid bidDetails) {
         // checking if time is valid
         Long bidProductId = bidDetails.getProduct().getProductId();
@@ -89,11 +94,17 @@ public class BidService {
     @Transactional
     public Bid updateStatusBid(Bid updatedStatus) {
         Bid getBid = bidRepository.findById(updatedStatus.getBidId())
-                .orElseThrow(() -> new IllegalStateException("No Product found please refresh"));
+                .orElseThrow(() -> new IllegalStateException("Bid not placed successfully, please contact customer care for help."));
         getBid.setBidStatus(updatedStatus.getBidStatus());
         getBid.setRazorpayOrderId(updatedStatus.getRazorpayOrderId());
         getBid.setRazorpayPaymentId(updatedStatus.getRazorpayPaymentId());
         return bidRepository.save(getBid);
     }
-
+    @Transactional
+    public Bid deleteBid(Long bidId) {
+        Bid getBid = bidRepository.findById(bidId)
+                .orElseThrow(() -> new IllegalStateException("Bid not deleted successfully, please contact customer care for help."));
+        getBid.setBidStatus("deleted/refunded");
+        return bidRepository.save(getBid);
+    }
 }

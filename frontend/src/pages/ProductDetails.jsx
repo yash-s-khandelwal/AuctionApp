@@ -69,7 +69,7 @@ function ProductDetails() {
         </div>
         <div className="product-info-section">
           <h2 className="product-title">{product.productName}</h2>
-          <p className="product-minbid"><strong>Minimum Bid:</strong> ${product.minimumBid}</p>
+          <p className="product-minbid"><strong>Minimum Bid:</strong> ₹{product.minimumBid}</p>
           <p className="product-desc"><strong>Description:</strong> {product.productDescription}</p>
           <p><strong>Auction Dates:</strong> {new Date(product.auctionStartDate).toLocaleDateString()} - {new Date(product.auctionEndDate).toLocaleDateString()}</p>
           <p><strong>Seller:</strong> {product.user.firstName} {product.user.lastName} ({product.user.username})</p>
@@ -82,7 +82,7 @@ function ProductDetails() {
                   return bids.map(bid => (
                     <li key={bid.bidId}>
                       <span className="bid-price" style={{ color: bid.price === maxBid ? "green" : "black", fontWeight: bid.price === maxBid ? "bold" : "normal" }}>
-                        ${bid.price}
+                        ₹{bid.price}
                       </span> by {bid.user.firstName} {bid.user.lastName} <span className="bid-username">({bid.user.username})</span>
                     </li>
                   ));
