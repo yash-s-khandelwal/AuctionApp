@@ -57,7 +57,7 @@ const BidInput = memo(({ maxBid, minimumBid, product }) => {
         
 
         const options = {
-          key: "rzp_test_RGPAKmqn2T4bDQ",
+          key: "rzp_live_RNIHFWWsAqKCy1",
           amount: bidAmount * 100, // Amount in currency subunits
           currency: "INR",
           name: "RareSphere",

@@ -25,6 +25,7 @@ public class PaymentGatewayService {
         JSONObject notes = new JSONObject();
         notes.put("productId", productId);
         notes.put("userId", userId);
+        orderRequest.put("payment_capture", 1);
 
         orderRequest.put("notes", notes);
 
@@ -32,20 +33,20 @@ public class PaymentGatewayService {
         return order.toString();
     }
 
-    public String createRefund(Bid completeBid) throws RazorpayException{
-        RazorpayClient razorpay = new RazorpayClient(razorpayKeyId,razorpayKeySecret);
+    public String createRefund(Bid completeBid) throws RazorpayException {
+        RazorpayClient razorpay = new RazorpayClient(razorpayKeyId, razorpayKeySecret);
 
         String paymentId = completeBid.getRazorpayPaymentId();
 
         JSONObject refundRequest = new JSONObject();
-        refundRequest.put("amount",(int)completeBid.getPrice()*100);
-        refundRequest.put("speed","normal");
+        refundRequest.put("amount", (int) completeBid.getPrice() * 100);
+        refundRequest.put("speed", "normal");
         JSONObject notes = new JSONObject();
-        notes.put("refund reason","Cancelled Bid");
-        refundRequest.put("notes",notes);
-        refundRequest.put("receipt",completeBid.getBidId().toString());
+        notes.put("refund reason", "Cancelled Bid");
+        refundRequest.put("notes", notes);
+        refundRequest.put("receipt", completeBid.getBidId().toString());
 
-        Refund refund = razorpay.payments.refund(paymentId,refundRequest);
+        Refund refund = razorpay.payments.refund(paymentId, refundRequest);
         return refund.toString();
     }
 

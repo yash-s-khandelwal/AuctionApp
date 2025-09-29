@@ -34,8 +34,8 @@ const CategoryList = () => {
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Categories</h1>
+    <div style={{ }}>
+      <h1 style={{fontWeight:"bold", padding:"5spx", textAlign:"center"}}>Categories</h1>
       <ul style={{ listStyle: "none", padding: 0 }}>
         {categories.map((category) => {
           return (

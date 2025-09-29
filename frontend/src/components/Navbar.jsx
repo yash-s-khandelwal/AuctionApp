@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import SearchBar from "./SearchBar";
@@ -7,6 +7,7 @@ import CategoryList from "../pages/CategoryList";
 import LoginForm from "./Auth/LoginForm"; // Import the new components
 import SignupForm from "./Auth/SignupForm";
 import { useAuth } from "../context/AuthContext";
+import useOutsideClick from '../hooks/useOutsideClick';
 
 function Navbar({ currency = 'INR', setCurrency = () => { } }) { // INR default
   const [showLogin, setShowLogin] = useState(false);
@@ -29,6 +30,12 @@ function Navbar({ currency = 'INR', setCurrency = () => { } }) { // INR default
     // For now, just log the query
     console.log("Search button clicked:", searchQuery);
   };
+  const categoryRef = useRef(null); 
+
+    const closeCategories = () => {
+        setShowCategories(false);
+    };
+  useOutsideClick(categoryRef, closeCategories);
   return (
     <>
       {/* Top Navbar */}
@@ -202,7 +209,7 @@ function Navbar({ currency = 'INR', setCurrency = () => { } }) { // INR default
       {/* Category Popup below All Category menu link */}
       <div style={{ position: "relative" }}>
         {showCategories && (
-          <div className="category-popup" style={{ position: "absolute", top: "32px", right: 0, zIndex: 100 }}>
+          <div ref={categoryRef} className="category-popup" style={{ position: "absolute", top: "32px", right: 0, zIndex: 100 }}>
             <CategoryList onClose={() => setShowCategories(false)} />
           </div>
         )}

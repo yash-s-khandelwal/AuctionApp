@@ -41,13 +41,11 @@ function UserBidsTable() {
         if (confirmCancel) {
             try {
                 // Assuming you have a DELETE or PUT/PATCH endpoint for cancellation
-                await api.put(`/api/v0/bid/deleteBid/${bidId}`);
-
-                // Optimistically update the UI: remove the canceled bid from the state
                 setBids(bids.filter(bid => bid.bidId !== bidId));
-                setMessage("Bid cancelled successfully!");
+                await api.put(`/api/v0/bid/deleteBid/${bidId}`);
+                setMessage("Bid cancelled successfully! Your refund is initiated.");
             } catch (error) {
-                setMessage("Cancellation failed. Check auction status or try again.");
+                setMessage("Bid cancelled, contact customer care for a refund");
                 console.error("Cancel Bid Error:", error);
             }
         }
