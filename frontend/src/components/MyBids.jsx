@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axiosConfig';
+import { Link } from 'react-router-dom';
 
 function UserBidsTable() {
     const { user } = useAuth();
@@ -36,12 +37,12 @@ function UserBidsTable() {
     const handleCancelBid = async (bidId) => {
         setMessage('');
         const confirmCancel = window.confirm("Are you sure you want to cancel this bid?");
-        
+
         if (confirmCancel) {
             try {
                 // Assuming you have a DELETE or PUT/PATCH endpoint for cancellation
                 await api.put(`/api/v0/bid/deleteBid/${bidId}`);
-                
+
                 // Optimistically update the UI: remove the canceled bid from the state
                 setBids(bids.filter(bid => bid.bidId !== bidId));
                 setMessage("Bid cancelled successfully!");
@@ -75,11 +76,13 @@ function UserBidsTable() {
                 <tbody>
                     {bids.map((bid) => (
                         <tr key={bid.bidId} style={styles.tableRow}>
-                            <td style={styles.tableData}>{bid.product?.productName}</td>
+                            <Link to={`/product/${bid.product?.productId}`}>
+                                <td style={styles.tableData}>{bid.product?.productName}</td>
+                            </Link>
                             <td style={styles.tableData}>₹{bid.price.toFixed(2)}</td>
                             <td style={styles.tableData}>
-                                <button 
-                                    onClick={() => handleCancelBid(bid.bidId)} 
+                                <button
+                                    onClick={() => handleCancelBid(bid.bidId)}
                                     style={styles.cancelButton}
                                 >
                                     Cancel Bid

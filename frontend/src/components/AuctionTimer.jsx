@@ -8,6 +8,7 @@ function AuctionTimer({ endTime }) {
 
     if (difference > 0) {
       timeLeft = {
+        days: Math.floor((difference)/(1000 * 60 * 60 * 24)),
         hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
         minutes: Math.floor((difference / (1000 * 60)) % 60),
         seconds: Math.floor((difference / 1000) % 60),
@@ -29,7 +30,7 @@ function AuctionTimer({ endTime }) {
 
   return (
     <p>
-      ⏳ {timeLeft.hours || "00"}h {timeLeft.minutes || "00"}m{" "}
+      ⏳{timeLeft.days || "00"}d {timeLeft.hours || "00"}h {timeLeft.minutes || "00"}m{" "}
       {timeLeft.seconds || "00"}s
     </p>
   );

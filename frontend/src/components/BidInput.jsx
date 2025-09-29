@@ -26,11 +26,11 @@ const BidInput = memo(({ maxBid, minimumBid, product }) => {
   const handlePlaceBid = async () => {
     const amount = parseFloat(bidAmount);
     if (isNaN(amount) || amount <= maxBid) {
-      setErrorMsg(`Bid must be greater than $${maxBid}`);
+      setErrorMsg(`Bid must be greater than ₹${maxBid}`);
     } else {
       setErrorMsg("");
       if (!scriptLoaded) {
-        alert('Payment script not loaded yet!');
+        alert("Network Error");
         return;
       }
 

@@ -14,10 +14,15 @@ function LiveAuctionList() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:8080/api/v0/product/allProducts");
-        // Only show auctions where current time < auctionEndDate
+        console.log(response.data)
         const now = new Date();
-        const live = response.data.filter(p => new Date(p.auctionEndDate) > now);
+        const live = response.data.filter(p => {
+          const endDate = new Date(p.auctionEndDate).getTime();
+          const startDate = new Date(p.auctionStartDate).getTime();
+          return startDate < now && endDate > now;
+      });
         setProducts(live);
+        console.log(products)
       } catch (err) {
         setError(err.message || "Something went wrong");
       } finally {

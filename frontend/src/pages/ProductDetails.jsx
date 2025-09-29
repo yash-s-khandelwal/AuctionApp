@@ -60,7 +60,6 @@ function ProductDetails() {
       <div className="product-details-flex">
         <div className="product-image-section">
           <img src={product.imageUrl?product.imageUrl:`https://picsum.photos/seed/${product.productId}/500/400`} alt={product.productName} className="product-details-img" />
-          {/* Auction Timer below image */}
           <div className="auction-timer-box">
             <AuctionTimer endTime={product.auctionEndDate} />
           </div>

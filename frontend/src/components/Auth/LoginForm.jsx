@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../api/axiosConfig';
+import { Link, Navigate } from 'react-router-dom';
 
 function LoginForm({ onClose }) {
   const [loginForm, setLoginForm] = useState({
@@ -25,6 +26,7 @@ function LoginForm({ onClose }) {
     try {
       const response = await api.post('api/v0/auth/login', loginForm);
       login(response.data); // Store JWT token in context
+      <Navigate to={"/"}></Navigate>
       onClose(); // Close the modal
     } catch (err) {
       console.log(err)

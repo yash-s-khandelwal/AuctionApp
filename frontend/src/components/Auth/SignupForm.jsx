@@ -61,6 +61,9 @@ function SignupForm({ onClose }) {
       if (response.status === 201) {
         setMessage('Registration successful! You can now log in.');
         setForm({ username: '', firstName: '', lastName: '', phoneNumber: '', email: '', password: '', confirmPassword: '' });
+        setTimeout(() => {
+          onClose();
+        }, 1000);
       }
     } catch (error) {
       if (error.response) {
@@ -90,22 +93,28 @@ function SignupForm({ onClose }) {
             {errors.firstName && <span style={styles.error}>{errors.firstName}</span>}
           </div>
           <div style={styles.gridItem}>
-            <input name="phoneNumber" type="tel" placeholder="Phone Number" style={styles.input} value={form.phoneNumber} onChange={handleChange} />
-            {errors.phoneNumber && <span style={styles.error}>{errors.phoneNumber}</span>}
-          </div>
-          <div style={styles.gridItem}>
-            <input name="password" type="password" placeholder="Password" style={styles.input} value={form.password} onChange={handleChange} />
-            {errors.password && <span style={styles.error}>{errors.password}</span>}
-          </div>
-          
-          {/* Second Column */}
-          <div style={styles.gridItem}>
             <input name="lastName" type="text" placeholder="Last Name" style={styles.input} value={form.lastName} onChange={handleChange} />
             {errors.lastName && <span style={styles.error}>{errors.lastName}</span>}
           </div>
           <div style={styles.gridItem}>
+            <input name="phoneNumber" type="tel" placeholder="Phone Number" style={styles.input} value={form.phoneNumber} onChange={handleChange} />
+            {errors.phoneNumber && <span style={styles.error}>{errors.phoneNumber}</span>}
+          </div>
+          
+          
+          {/* Second Column */}
+          
+          <div style={styles.gridItem}>
             <input name="email" type="email" placeholder="Email" style={styles.input} value={form.email} onChange={handleChange} />
             {errors.email && <span style={styles.error}>{errors.email}</span>}
+          </div>
+          <div style={styles.gridItem}>
+            <input name="city" type="text" placeholder="City" style={styles.input}/>
+            {errors.confirmPassword && <span style={styles.error}>{errors.confirmPassword}</span>}
+          </div>
+          <div style={styles.gridItem}>
+            <input name="password" type="password" placeholder="Password" style={styles.input} value={form.password} onChange={handleChange} />
+            {errors.password && <span style={styles.error}>{errors.password}</span>}
           </div>
           <div style={styles.gridItem}>
             <input name="confirmPassword" type="password" placeholder="Confirm Password" style={styles.input} value={form.confirmPassword} onChange={handleChange} />
@@ -128,14 +137,13 @@ const styles = {
         background: "white",
         padding: "2px",
         borderRadius: "10px",
-        width: "500px",
         textAlign: "center",
         boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
     },
     input: {
         width: "100%",
-        padding: "1px",
-        margin: "10px 0",
+        padding: "2px",
+        margin: "10px 5px",
         border: "1px solid #ccc",
         borderRadius: "5px",
     },

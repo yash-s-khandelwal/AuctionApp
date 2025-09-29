@@ -10,6 +10,7 @@ function AuctionList() {
   // State to store products
   const [products, setProducts] = useState([]);
   // Loading and error states
+  const [showLanding, setShowLanding] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   // Use global search query
@@ -31,11 +32,17 @@ function AuctionList() {
     fetchProducts();
   }, []);
 
+    useEffect(() => {
+        if (searchQuery.trim().length > 0) {
+            setShowLanding(false);
+        } else {
+            setShowLanding(true); 
+        }
+    }, [searchQuery]);
 
   if (loading) return <p>Loading products...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  // Filter products by search query (name, description, seller fields)
   const filteredProducts = products.filter(p => {
     const query = searchQuery.trim().toLowerCase();
     if (!query) return true;
@@ -52,15 +59,15 @@ function AuctionList() {
 
   return (
     <div className="auction-list stylish-bg">
-      {/* Big auction image and short description at the top */}
-      <div className="auction-hero-section" style={{position: 'relative', textAlign: 'center', marginBottom: '2.5rem'}}>
-         <h1 className="auction-hero-title" style={{fontSize: '3rem', fontWeight: '800', margin: '1.2rem 0 0.5rem', color: '#7A1528', letterSpacing: '1px'}}>RareSphere Auctions</h1>
+      {showLanding && (
+        <div className="auction-hero-section" style={{position: 'relative', textAlign: 'center', marginBottom: '2.5rem'}}>
+        <h1 className="auction-hero-title" style={{fontSize: '3rem', fontWeight: '800', margin: '1.2rem 0 0.5rem', color: '#7A1528', letterSpacing: '1px'}}>RareSphere Auctions</h1>
         <h2 className="auction-hero-subtitle" style={{fontSize: '1.8rem', fontWeight: '600', margin: '0.5rem 0', color: 'black'}}>Bid, Win, and Own Something Unique</h2>
         <p className="auction-hero-desc" style={{fontSize: '1.3rem', color: '#0b0808ff', maxWidth: '600px', margin: '0 auto 1.5rem', fontWeight: '500'}}>Discover unique items, rare collectibles, and exclusive deals.<br />Browse our live auctions and place your bids to win amazing products!</p>
 
         <img src="https://sothebys-com.brightspotcdn.com/dims4/default/9b7ac95/2147483647/strip/true/crop/2691x1280+95+0/resize/1440x685!/format/webp/quality/90/?url=http%3A%2F%2Fsothebys-brightspot.s3.amazonaws.com%2Fdotcom%2F52%2Fbd%2F61936d0e4f96b153b4a88afb7cd0%2F252277900-park-life-web-banners-phaseii-homepage-salon-v2.jpg" alt="Auction Hero" style={{width: '100%', maxWidth: '900px', borderRadius: '24px', boxShadow: '0 8px 32px rgba(122,21,40,0.15)', margin: '0 auto'}} />
       </div>
-      {/* Search Bar removed; only Navbar search bar remains */}
+      )}
       <h2 className="auction-title" style={{fontSize: '2.2rem', fontWeight: '700', color: '#222', marginBottom: '2rem'}}>Available Auctions</h2>
       <div className="auction-grid stylish-grid">
         {filteredProducts.length === 0 ? (

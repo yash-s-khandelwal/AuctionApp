@@ -167,7 +167,7 @@ function Navbar({ currency = 'INR', setCurrency = () => { } }) { // INR default
 
        {showLogin && (
         <div style={styles.overlay}>
-          <div style={styles.modal}>
+          <div style={styles.loginModal}>
             <LoginForm onClose={() => setShowLogin(false)} />
           </div>
         </div>
@@ -185,11 +185,11 @@ function Navbar({ currency = 'INR', setCurrency = () => { } }) { // INR default
       <div className="menu-bar">
         <Link to="/live-auctions" className="menu-link">LIVE AUCTION</Link>
         <Link to="/past-auctions" className="menu-link">PAST AUCTION</Link>
-        <Link to="/category/10000/vintage" className="menu-link">VINTAGE</Link>
+        <Link to="/category/10000/Vintage" className="menu-link">VINTAGE</Link>
         <Link to="/category/10001/Fashion" className="menu-link">FASHION</Link>
-        <Link to="/category/10002/technology" className="menu-link">TECHNOLOGY</Link>
-        <Link to="/category/10003/art" className="menu-link">ART</Link>
-        <Link to="/category/10004/collectibles" className="menu-link">COLLECTIBLES</Link>
+        <Link to="/category/10002/Technology" className="menu-link">TECHNOLOGY</Link>
+        <Link to="/category/10003/Art" className="menu-link">ART</Link>
+        <Link to="/category/10004/Collectibles" className="menu-link">COLLECTIBLES</Link>
         <span
           className="menu-link"
           style={{ cursor: "pointer", fontWeight: 500 }}
@@ -231,11 +231,18 @@ const styles = {
     alignItems: "center",
     zIndex: 1000,
   },
-  modal: {
+  loginModal: {
     background: "white",
     padding: "30px",
     borderRadius: "10px",
     width: "300px",
+    textAlign: "center",
+    boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+  },
+  modal: {
+    background: "white",
+    padding: "30px",
+    borderRadius: "10px",
     textAlign: "center",
     boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
   },

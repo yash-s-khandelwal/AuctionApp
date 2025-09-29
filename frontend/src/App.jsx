@@ -34,7 +34,6 @@ function App() {
         {/* Profile and its sections */}
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/profile/create-product" element={<ProtectedRoute><CreateProduct /></ProtectedRoute>} />
-        <Route path="/profile/my-bids" element={<ProtectedRoute><MyBids currency={currency} /> </ProtectedRoute>} />
         <Route path="/profile/my-products" element={<MyProducts currency={currency} />} />
       </Routes>
     </Router>
@@ -46,7 +45,6 @@ export default App;
 
 import Profile from "./pages/Profile";
 import CreateProduct from "./pages/CreateProduct";
-import MyBids from "./pages/MyBids";
 import MyProducts from "./pages/MyProducts";
 import LoginForm from "./components/Auth/LoginForm";
 import SignupForm from "./components/Auth/SignupForm";
