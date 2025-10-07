@@ -2,7 +2,7 @@ import React from "react";
 import UpdatesFull from "./pages/UpdatesFull";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AuctionList from "./pages/AuctionList";
-import Navbar from "../src/components/Navbar";
+import Navbar from "./components/Navbar";
 import CategoryPage from "./pages/CategoryPage";
 import ProductDetails from "./pages/ProductDetails";
 import Updates from "./pages/Updates";
